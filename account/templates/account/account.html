@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style type="text/css">
+        .form-signin {
+          width: 100%;
+          max-width: 330px;
+          padding: 15px;
+          margin: auto;
+        }
+
+        .form-signin .form-floating:focus-within {
+          z-index: 2;
+        }
+
+        .form-signin input[type="email"] {
+          margin-bottom: -1px;
+          border-bottom-right-radius: 0;
+          border-bottom-left-radius: 0;
+        }
+
+        .form-signin input[type="username"] {
+          margin-bottom: 10px;
+          border-top-left-radius: 0;
+          border-top-right-radius: 0;
+        }
+        #change_link {
+            font-weight: 500;
+            color: #910000;
+            text-decoration: none;
+        }
+        #change_link:hover {
+            color: #3d0101;
+        }
+    </style>
+
+    <main class="form-signin">
+          <form method="post">{% csrf_token %}
+                <h1 class="h3 mb-3 text-center fw-normal">Account</h1>
+
+                <div class="my-2 form-floating">
+                      <input type="email" name="email" class="form-control" id="floatingInput" placeholder="name@example.com"
+                             required autofocus value="{{account_form.initial.email}}">
+                      <label for="floatingInput">Email address</label>
+                </div>
+                <div class="my-2 form-floating">
+                      <input type="text" name="username" class="form-control" id="floatingUsername"
+                             placeholder="Username" required value="{{account_form.initial.username}}">
+                      <label for="floatingUsername">Username</label>
+                </div>
+                <div class="my-2 form-floating">
+                      <input type="text" name="first_name" class="form-control" id="floatingFirstName"
+                             placeholder="First name" required value="{{account_form.initial.first_name}}">
+                      <label for="floatingFirstName">First name</label>
+                </div>
+                <div class="my-2 form-floating">
+                      <input type="text" name="last_name" class="form-control" id="floatingLastName"
+                             placeholder="Last name" value="{{account_form.initial.last_name}}">
+                      <label for="floatingLastName">Last name</label>
+                </div>
+              <div class="my-2 form-floating" id="floatingGender">
+                  <select class="form-select" name="gender" value="{{account_form.initial.gender}}">
+                      <option value="M">Male</option>
+                      <option value="F">Female</option>
+                      <option value="NS">Not Specified</option>
+                  </select>
+              </div>
+
+                {% for field in account_form %}
+                    <p>
+                        {% for error in field.errors %}
+                            <p style="color: #a41515">{{ error }}
+                        {% endfor %}
+                    </p>
+                {% endfor %}
+              {% if account_form.non_field_errors %}
+                  <div style="color: #a41515">
+                      <p>
+                          {{account_form.non_field_errors}}
+                      </p>
+                  </div>
+              {% endif %}
+              {% if success_message %}
+                  <p style="color:#036d03; text-align: center;">{{success_message}}</p>
+              {% endif  %}
+                <button class="w-100 btn btn-lg btn-danger" type="submit">Save changes</button>
+          </form>
+            <div class="d-flex flex-column">
+                <a class="my-3 text-center" id="change_link" href="{% url 'password_change' %}">Change password</a>
+            </div>
+    </main>
+{% endblock content %}

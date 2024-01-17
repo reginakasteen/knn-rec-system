@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <style type="text/css">
+        .form-signin {
+          width: 100%;
+          max-width: 330px;
+          padding: 15px;
+          margin: auto;
+        }
+
+        .form-signin .checkbox {
+          font-weight: 400;
+        }
+
+        .form-signin .form-floating:focus-within {
+          z-index: 2;
+        }
+
+        .form-signin input[type="email"] {
+          margin-bottom: -1px;
+          border-bottom-right-radius: 0;
+          border-bottom-left-radius: 0;
+        }
+
+        .form-signin input[type="password"] {
+          margin-bottom: 10px;
+          border-top-left-radius: 0;
+          border-top-right-radius: 0;
+        }
+    </style>
+
+    <main class="form-signin">
+          <form method="post">{% csrf_token %}
+                <h1 class="h3 mb-3 text-center fw-normal">Sign up</h1>
+
+                <div class="my-2 form-floating">
+                      <input type="email" name="email" class="form-control" id="floatingEmail" placeholder="name@example.com" required autofocus>
+                      <label for="floatingEmail">Email address</label>
+                </div>
+                <div class="my-2 form-floating">
+                      <input type="text" name="username" class="form-control" id="floatingUsername"
+                             placeholder="Username" required>
+                      <label for="floatingUsername">Username</label>
+                </div>
+                <div class="my-2 form-floating">
+                      <input type="text" name="first_name" class="form-control" id="floatingFirstName"
+                             placeholder="First name" required>
+                      <label for="floatingFirstName">First name</label>
+                </div>
+                <div class="my-2 form-floating">
+                      <input type="text" name="last_name" class="form-control" id="floatingLastName"
+                             placeholder="Last name" required>
+                      <label for="floatingLastName">Last name</label>
+                </div>
+                <div class="my-2 form-floating" id="floatingGender">
+                      <select class="form-select" name="gender">
+                          <option value="M">Male</option>
+                          <option value="F">Female</option>
+                          <option value="NS" selected>Not Specified</option>
+                      </select>
+                </div>
+                <div class="mt-2 form-floating">
+                      <input type="password" name="password1" class="form-control" id="floatingPassword" placeholder="Password" required>
+                      <label for="floatingPassword">Password</label>
+                </div>
+                <div class="form-floating">
+                      <input type="password" name="password2" class="form-control" id="floatingPassword" placeholder="Confirm password" required>
+                      <label for="floatingPassword">Confirm password</label>
+                </div>
+                {% for field in registration_form %}
+                    <p>
+                        {% for error in field.errors %}
+                            <p style="color: #a41515;">{{ error }}
+                        {% endfor %}
+                    </p>
+                {% endfor %}
+
+                {% if registration_form.non_field_errors %}
+                    <div style="color: #a41515;">
+                        <p>{{ registration_form.non_field_errors }}</p>
+                    </div>
+                {% endif %}
+
+                <div class="checkbox mb-3">
+                      <label>
+                            <input type="checkbox" value="remember-me"> Remember me
+                      </label>
+                </div>
+                <button class="w-100 btn btn-lg btn-danger" type="submit">Sign up</button>
+          </form>
+    </main>
+
+{% endblock content %}

@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <style type="text/css">
+        .form-signin {
+          width: 100%;
+          max-width: 330px;
+          padding: 15px;
+          margin: auto;
+        }
+
+        .form-signin .checkbox {
+          font-weight: 400;
+        }
+
+        .form-signin .form-floating:focus-within {
+          z-index: 2;
+        }
+
+        .form-signin input[type="email"] {
+          margin-bottom: -1px;
+          border-bottom-right-radius: 0;
+          border-bottom-left-radius: 0;
+        }
+
+        .form-signin input[type="password"] {
+          margin-bottom: 10px;
+          border-top-left-radius: 0;
+          border-top-right-radius: 0;
+        }
+        #reset_link {
+            font-weight: 500;
+            color: #910000;
+            text-decoration: none;
+        }
+        #reset_link:hover {
+            color: #3d0101;
+        }
+    </style>
+
+    <main class="form-signin">
+          <form method="post">{% csrf_token %}
+                <h1 class="h3 mb-3 text-center fw-normal">Login</h1>
+
+                <div class="my-2 form-floating">
+                      <input type="email" name="email" class="form-control" id="floatingInput" placeholder="name@example.com" required autofocus>
+                      <label for="floatingInput">Email address</label>
+                </div>
+                <div class="my-2 form-floating">
+                      <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Password" required>
+                      <label for="floatingPassword">Password</label>
+                </div>
+                {% for field in login_form %}
+                        {% for error in field.errors %}
+                            <p style="color: #a41515;">{{ error }}</p>
+                        {% endfor %}
+                {% endfor %}
+
+                {% if login_form.non_field_errors %}
+                    <div style="color: #a41515;">
+                        <p>{{ login_form.non_field_errors }}</p>
+                    </div>
+                {% endif %}
+
+                <div class="checkbox mb-3">
+                      <label>
+                            <input type="checkbox" value="remember-me"> Remember me
+                      </label>
+                </div>
+                <button class="w-100 btn btn-lg btn-danger" type="submit">Log in</button>
+          </form>
+            <div class="d-flex flex-column">
+                <a class="my-3 text-center" id="reset_link" href="{% url 'password_reset' %}">Forgot your password?</a>
+            </div>
+    </main>
+
+{% endblock content %}
