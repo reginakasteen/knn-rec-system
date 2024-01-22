@@ -46,7 +46,7 @@ class Offer(models.Model):
     is_available = models.BooleanField(default=True)
     is_active = models.BooleanField(default=True)
     period = models.CharField(max_length=10, choices=PERIODS, default='M')
-    room_type = models.CharField(max_length=30)
+    room_type = models.CharField(max_length=50)
     picture = models.ImageField(upload_to='images/')
     created = models.DateTimeField(auto_now_add=True)
     description = models.TextField(null=True, blank=True)

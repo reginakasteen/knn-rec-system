@@ -10,9 +10,6 @@ def registration_view(request):
         if form.is_valid():
             form.save()
             email = form.cleaned_data.get('email')
-            # first_name = form.cleaned_data.get('first_name')
-            # last_name = form.cleaned_data.get('last_name')
-            # gender = form.cleaned_data.get('gender')
             raw_password = form.cleaned_data.get('password1')
             account = authenticate(email=email, password=raw_password)
             login(request, account)

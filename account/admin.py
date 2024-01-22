@@ -28,7 +28,7 @@ class OfferAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
     search_fields = ('name', 'owned_by')
     list_filter = ('is_available', 'is_active')
-    list_editable = ('is_available', 'price')
+    list_editable = ('is_available', 'price', 'is_active')
 
 
 @admin.register(Owner)
