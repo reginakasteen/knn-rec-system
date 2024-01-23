@@ -4,13 +4,13 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Store</title>
+
 
 </head>
 <body>
 
     {% block content %}
-
+    <title>{% block title %}Store{% endblock %}</title>
         <style type="text/css">
         body {
             background:#eee;
@@ -48,9 +48,8 @@
         }
     </style>
 
-
-        <div class="container mt-5 mb-5">
-            {% for offer in offers %}
+        <div class="container-md mt-2 mb-2">
+        {% for offer in offers %}
             <div class="d-flex justify-content-center row">
                 <div class="col-md-10">
                     <div class="row p-2 bg-white border rounded mt-2">
@@ -69,7 +68,8 @@
                                 <h4 class="mr-1">${{ offer.price }}</h4><span class="mx-2 text-muted fw-light">{{ offer.get_period_display }}</span>
                             </div>
                             <h6 class="text-success">Free shipping</h6>
-                            <div class="d-flex flex-column mt-4"><a class="btn btn-danger btn-sm" href="{{ offer.get_absolute_url }}" role="button">Details</a>
+                            <div class="d-flex flex-column mt-4">
+                                <a class="btn btn-danger btn-sm" href="{{ offer.get_absolute_url }}" role="button">Details</a>
                                 <a class="btn btn-outline-danger btn-sm mt-2" href="#" role="button">Add to cart</a></div>
                         </div>
                     </div>

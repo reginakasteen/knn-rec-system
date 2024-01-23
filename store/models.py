@@ -1,6 +1,7 @@
 from django.db import models
 from account.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator, URLValidator
+from django.urls import reverse
 
 PERIODS = [
     ("D", "per day"),
@@ -54,6 +55,9 @@ class Offer(models.Model):
     class Meta:
         verbose_name_plural = 'offers'
         ordering = ('-created',)
+
+    def get_absolute_url(self):
+        return reverse('store:offer_detail', args=[self.slug])
 
     def __str__(self):
         return self.name

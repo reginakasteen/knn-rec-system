@@ -29,6 +29,9 @@ from account.views import (
     login_view,
     account_view,
 )
+from store.views import (
+    offer_detail,
+)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -38,6 +41,7 @@ urlpatterns = [
     path('logout/', logout_view, name="logout"),
     path('login/', login_view, name="login"),
     path('account/', account_view, name="account"),
+
 
 
 
