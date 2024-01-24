@@ -24,8 +24,8 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Offer)
 class OfferAdmin(admin.ModelAdmin):
-    list_display = ('name', 'owned_by', 'slug', 'room_type', 'is_active', 'is_available', 'price', 'location')
-    prepopulated_fields = {'slug': ('name',)}
+    list_display = ('name', 'owned_by', 'slug', 'category', 'room_type', 'is_active', 'is_available', 'price',)
+    prepopulated_fields = {'slug': ('name', 'owned_by')}
     search_fields = ('name', 'owned_by')
     list_filter = ('is_available', 'is_active')
     list_editable = ('is_available', 'price', 'is_active')

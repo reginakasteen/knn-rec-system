@@ -1,13 +1,15 @@
 {% extends 'base.html' %}
 {% load static %}
-<head>
-    <meta charset="UTF-8">
-</head>
-<body>
 
-    {% block content %}
-    <title>{% block title %}Store{% endblock %}</title>
-        <style type="text/css">
+{% block content %}
+        <title>{% if category %}
+            {{ category.name|title }} | Store
+        {% else %}
+            Offers
+        {% endif %}</title>
+
+
+    <style type="text/css">
         body {
             background:#eee;
         }
@@ -44,12 +46,13 @@
         }
     </style>
 
-        <div class="container-md mt-2 mb-2">
+        <div class="container-sm mt-2 mb-2 ">
+            <h2 class="h2 mt-2 ms-5">{{ category.name|title }}</h2>
         {% for offer in offers %}
             <div class="d-flex justify-content-center row">
                 <div class="col-md-10">
                     <div class="row p-2 bg-white border rounded mt-2 mb-2">
-                        <div class="col-md-3 mt-1">
+                        <div class="col-md-3 mt-2">
                             {% if offer.is_active %}
                                 <img class="img-fluid img-responsive rounded product-image" src="{{ offer.picture.url }}">
                             {% else %}
@@ -79,6 +82,5 @@
             </div>
             {% endfor %}
     </div>
-    {% endblock content %}
 
-</body>
+{% endblock %}

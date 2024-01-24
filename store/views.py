@@ -12,3 +12,9 @@ def categories(request):
 def offer_detail(request, slug):
     offer = get_object_or_404(Offer, slug=slug, is_active=True)
     return render(request, 'store/offers/detail.html', {'offer': offer})
+
+def category_list_view(request, category_slug):
+    category = get_object_or_404(Category, slug=category_slug)
+    offers = Offer.objects.filter(category=category)
+    return render(request, 'store/offers/category.html', {'category': category, 'offers': offers})
+

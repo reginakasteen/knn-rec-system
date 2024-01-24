@@ -16,18 +16,19 @@ class Category(models.Model):
 
     class Meta:
         verbose_name_plural = 'categories'
+        ordering = ('name',)
 
     def get_absolute_url(self):
-        return reverse('store:category_list', args=[self.s])
+        return reverse('store:category_list_view', args=[self.slug])
 
     def __str__(self):
         return self.name
 
 class Owner(models.Model):
-    owner_name = models.CharField(max_length=50, unique=True)
-    location = models.CharField(max_length=50)
+    owner_name = models.CharField(max_length=255, unique=True)
+    location = models.CharField(max_length=100)
     slug = models.SlugField(max_length=255, unique=True)
-    description = models.TextField(null=True)
+    description = models.TextField(null=True, blank=True)
 
     class Meta:
         verbose_name_plural = 'owners'
@@ -39,9 +40,9 @@ class Owner(models.Model):
 class Offer(models.Model):
     category = models.ForeignKey(Category, related_name='offer', on_delete=models.CASCADE)
     owned_by = models.ForeignKey(Owner, on_delete=models.CASCADE)
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255, unique=True)
-    location = models.CharField(max_length=50)
+    location = models.CharField(max_length=100)
     price = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(1)])
     rating = models.FloatField(null=True)
     is_available = models.BooleanField(default=True)
