@@ -47,7 +47,7 @@
         <div class="container-md mt-2 mb-2">
         {% for offer in offers %}
             <div class="d-flex justify-content-center row">
-                <div class="col-md-10">
+                <div class="col-md-10 product-card">
                     <div class="row p-2 bg-white border rounded mt-2 mb-2">
                         <div class="col-md-3 mt-1">
                             {% if offer.is_active %}
@@ -59,9 +59,9 @@
                         <div class="col-md-6 mt-1">
                             <h5>{{ offer.name }}</h5>
                             <div class="d-flex flex-row">
-                                <div class="ratings mr-2"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></div><span>310</span>
+                                <div class="ratings mr-2 mt-2">{{ offer.average_rating|floatformat:"1" }}<i class="fa fa-star"> </i> based on   {{ offer.reviews.count }} reviews</div>
                             </div>
-                            <div class="mt-1 mb-1 spec-1"><span>{{ offer.created }}</span><span class="dot"></span><span>{{ offer.category|title }}</span></div>
+                            <div class="mt-1 mb-1 spec-1"><span>{{ offer.created|date:"d M, Y" }}</span><span class="dot"></span><span>{{ offer.category|title }}</span></div>
                             <div class="mt-1 mb-1 spec-1"><span>{{ offer.owned_by }}</span><span class="dot"></span><span>{{ offer.location }}</span><span class="dot"></span><span>{{ offer.room_type }}<br></span></div>
                             <p class="text-justify text-truncate para mb-0">{{ offer.description }}</p>
                         </div>
@@ -69,15 +69,27 @@
                             <div class="d-flex flex-row align-items-center">
                                 <h4 class="mr-1">${{ offer.price }}</h4><span class="mx-2 text-muted fw-light">{{ offer.get_period_display }}</span>
                             </div>
-                            <h6 class="text-success">Free shipping</h6>
-                            <div class="d-flex flex-column mt-4">
-                                <a class="btn btn-danger btn-sm" href="{{ offer.get_absolute_url }}" role="button">Details</a>
-                                <a class="btn btn-outline-danger btn-sm mt-2" href="#" role="button">Add to cart</a></div>
+                            {% if offer.is_active %}
+                               <h6 class="text-success">Available for rent</h6>
+                                <div class="d-flex flex-column mt-4">
+                                    <a class="btn btn-danger  btn-sm" href="{{ offer.get_absolute_url }}" role="button">Details</a>
+                                    <a class="btn btn-outline-danger btn-sm mt-2" href="#" role="button">Add to cart</a>
+                                </div>
+                            {% else %}
+                                <h6 class="text-danger">Reserved</h6>
+                                <div class="d-flex flex-column mt-4">
+                                    <a class="btn btn-danger disabled btn-sm" href="{{ offer.get_absolute_url }}" role="button">Details</a>
+                                    <a class="btn btn-outline-danger disabled btn-sm mt-2" href="#" role="button">Add to cart</a>
+                                </div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
             </div>
             {% endfor %}
+        <div class="d-flex justify-content-center">
+            <button id="load-more" class="btn-lg btn-danger my-3">Load more</button>
+        </div>
     </div>
     {% endblock content %}
 

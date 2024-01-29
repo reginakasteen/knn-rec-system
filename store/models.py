@@ -9,6 +9,14 @@ PERIODS = [
     ("Y", "per year"),
 ]
 
+RATING = [
+    (1, "★☆☆☆☆"),
+    (2, "★★☆☆☆"),
+    (3, "★★★☆☆"),
+    (4, "★★★★☆"),
+    (5, "★★★★★"),
+]
+
 
 class Category(models.Model):
     name = models.CharField(max_length=100, db_index=True)
@@ -44,7 +52,7 @@ class Offer(models.Model):
     slug = models.SlugField(max_length=255, unique=True)
     location = models.CharField(max_length=100)
     price = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(1)])
-    rating = models.FloatField(null=True)
+    #rating = models.FloatField(null=True, default=0)
     is_available = models.BooleanField(default=True)
     is_active = models.BooleanField(default=True)
     period = models.CharField(max_length=10, choices=PERIODS, default='M')
@@ -62,3 +70,21 @@ class Offer(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Review(models.Model):
+    offer = models.ForeignKey(Offer, on_delete=models.CASCADE, related_name="reviews")
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    rating_value = models.IntegerField(choices=RATING, default=None)
+    created_date = models.DateTimeField(auto_now_add=True)
+    edited_date = models.DateTimeField(auto_now=True)
+    review_text = models.TextField(null=True, blank=True)
+
+
+    class Meta:
+        verbose_name_plural = 'reviews'
+        ordering = ('-created_date',)
+
+    def __str__(self):
+        return self.offer.name
+

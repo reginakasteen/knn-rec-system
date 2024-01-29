@@ -19,6 +19,7 @@ from django.urls import path, include
 from django.contrib.auth import views as auth_views
 from django.conf import settings
 from django.conf.urls.static import static
+import store.views
 
 from personal.views import (
     home_screen_view,
@@ -29,9 +30,6 @@ from account.views import (
     login_view,
     account_view,
 )
-from store.views import (
-    offer_detail,
-)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -41,6 +39,8 @@ urlpatterns = [
     path('logout/', logout_view, name="logout"),
     path('login/', login_view, name="login"),
     path('account/', account_view, name="account"),
+    #path('submit_review/<slug:offer>/', submit_review, name="submit_review"),
+
 
 
 
