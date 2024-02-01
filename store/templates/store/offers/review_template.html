@@ -1,0 +1,21 @@
+<div class="card w-100 my-2">
+    <div class="card-body">
+        <div class="row d-flex">
+            <div class="col-md-2">
+                {% if r.user.gender == "F" %}
+                    <img src="{% static '/store/img/female.png' %}" class="ms-3 mt-2" width="70px" alt="female image">
+                {% else %}
+                    <img src="{% static '/store/img/male.png' %}" class="ms-3 mt-2" width="70px" alt="male image">
+                {% endif %}
+            </div>
+            <div class="col-md-10 my-1">
+                <div class="d-flex row">
+                    <div class="col-md-5 rating_value"><p>{{ r.get_rating_value_display }}</p></div>
+                    <div class="col-md-7 text-end"><span class="mx-2">{{ r.created_date|date:"d M, Y" }}</span></div>
+                </div>
+                <h5 class="card-title">{{ r.user.username }}</h5>
+                <p class="card-text me-2">{{ r.review_text }}</p>
+            </div>
+        </div>
+    </div>
+</div>

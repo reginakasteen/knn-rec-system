@@ -19,6 +19,15 @@
         }
         .parallax {
             position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        #text {
+            position: absolute;
+            font-size: 5em;
+            color: #333;
         }
     </style>
 
@@ -26,7 +35,7 @@
     <section>
         <div class="container">
             <header class="parallax">
-                <h1>Dwelly</h1>
+                <h1 id="text">Dwelly</h1>
             </header>
 
             <div class="pricing-header p-3 pb-md-4 mx-auto text-center">

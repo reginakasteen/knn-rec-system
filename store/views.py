@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
 from .models import Category, Offer, Review
 from .review_form import ReviewForm
+from django.urls import reverse
 from django.db.models import Avg
 
 
@@ -56,7 +57,6 @@ def category_list_view(request, category_slug):
 
 def ajax_add_review(request, id):
     offer = Offer.objects.get(pk=id)
-    offer_slug = offer.slug
     user = request.user
     review = Review.objects.create(
         user=user,
@@ -66,19 +66,17 @@ def ajax_add_review(request, id):
     )
     context = {
         'user': user.username,
-        'review_text': request.POST['review_text'],
-        'rating_value': request.POST['rating_value'],
-        'offer_slug': offer.slug,
+        'review_text': review.review_text,
+        'rating_value': review.rating_value,
+        'created': review.created_date.strftime('%Y-%m-%d %H:%M:%S'),
     }
-    if(Review.objects.filter(offer=offer).count == 0):
-        average_reviews = 0.0
-    else:
-        average_reviews = Review.objects.filter(offer=offer).aggregate(rating=Avg("rating_value"))
+    average_reviews = Review.objects.filter(offer=offer).aggregate(rating=Avg("rating_value"))['rating']
+    redirect_url = reverse('store:offer_detail', kwargs={'slug': offer.slug})
     return JsonResponse(
         {
-            'bool': True,
-            'context': context,
-            'average_reviews': average_reviews,
+            'success': True,
+            'redirect_url': redirect_url,
+            'average_rating': average_reviews,
         }
     )
 #def add_to_cart(request):
