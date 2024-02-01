@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
     <title>{% block title %}Home{% endblock %}</title>
@@ -17,88 +18,24 @@
         .pricing-h1 {
             color: #a41515;
         }
-        .parallax {
+        .text-block {
             position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            padding: 100px 250px;
+            color: #dddbd7;
+            background: #895156;
         }
-        #text {
-            position: absolute;
-            font-size: 5em;
-            color: #333;
-        }
+
     </style>
+    {% include 'personal/parallax.html' %}
 
-
-    <section>
-        <div class="container">
-            <header class="parallax">
-                <h1 id="text">Dwelly</h1>
-            </header>
-
-            <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
-              <h1 class="display-4 fw-normal pricing-h1">Header</h1>
-              <p class="fs-5 text-muted">Quickly build an effective pricing table for your potential customers with this Bootstrap example. It’s built with default Bootstrap components and utilities with little customization.</p>
-            </div>
-            <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
-              <div class="col">
-                <div class="card mb-4 rounded-3 shadow-sm">
-                  <div class="card-header py-3">
-                    <h4 class="my-0 fw-normal">Card header</h4>
-                  </div>
-                  <div class="card-body">
-                    <h1 class="card-title pricing-card-title"><small class="text-muted fw-light">more </small>5 000</h1>
-                    <ul class="list-unstyled mt-3 mb-4">
-                      <li>10 users included</li>
-                      <li>2 GB of storage</li>
-                      <li>Email support</li>
-                      <li>Help center access</li>
-                    </ul>
-                    <button type="button" class="w-100 btn btn-lg btn-outline-danger">Sign up for free</button>
-                  </div>
+        <section>
+                <div class="text-block text-center">
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed hendrerit risus at felis ultrices, sed varius metus luctus. Nulla facilisi. Maecenas hendrerit elit sed nibh vehicula, ut blandit nunc luctus. Nulla facilisi. Proin sit amet lectus ut odio facilisis consectetur. Integer vitae lorem sed turpis volutpat posuere. Phasellus sed dolor euismod, laoreet massa nec, ultricies tortor. Aliquam erat volutpat. Sed condimentum, dolor ut tincidunt finibus, est libero venenatis lorem, eu dictum metus nisi vel quam. Nullam sit amet turpis volutpat, convallis eros a, ultrices quam. Ut at risus ut dolor volutpat dignissim. Sed hendrerit purus vitae eros euismod congue. Suspendisse potenti. Sed faucibus elit vitae nisi tempus, in posuere lectus fermentum. Sed ut volutpat libero.
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tristique quam vel turpis pellentesque, ut laoreet diam condimentum. Ut ac sagittis justo. Fusce hendrerit justo quis metus tincidunt, a congue sapien fermentum. Integer luctus lacinia justo, nec convallis dolor suscipit vel. Nullam tincidunt sem at risus vulputate, ut tempor mauris venenatis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Maecenas ullamcorper quam eu hendrerit bibendum. In hac habitasse platea dictumst. Aenean tincidunt libero et sollicitudin eleifend. Vivamus ut accumsan elit. Suspendisse potenti. Integer nec scelerisque justo. Nunc volutpat justo vel urna fermentum, vel gravida lacus luctus.
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed hendrerit risus at felis ultrices, sed varius metus luctus. Nulla facilisi. Maecenas hendrerit elit sed nibh vehicula, ut blandit nunc luctus. Nulla facilisi. Proin sit amet lectus ut odio facilisis consectetur. Integer vitae lorem sed turpis volutpat posuere. Phasellus sed dolor euismod, laoreet massa nec, ultricies tortor. Aliquam erat volutpat. Sed condimentum, dolor ut tincidunt finibus, est libero venenatis lorem, eu dictum metus nisi vel quam. Nullam sit amet turpis volutpat, convallis eros a, ultrices quam. Ut at risus ut dolor volutpat dignissim. Sed hendrerit purus vitae eros euismod congue. Suspendisse potenti. Sed faucibus elit vitae nisi tempus, in posuere lectus fermentum. Sed ut volutpat libero.
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed hendrerit risus at felis ultrices, sed varius metus luctus. Nulla facilisi. Maecenas hendrerit elit sed nibh vehicula, ut blandit nunc luctus. Nulla facilisi. Proin sit amet lectus ut odio facilisis consectetur. Integer vitae lorem sed turpis volutpat posuere. Phasellus sed dolor euismod, laoreet massa nec, ultricies tortor. Aliquam erat volutpat. Sed condimentum, dolor ut tincidunt finibus, est libero venenatis lorem, eu dictum metus nisi vel quam. Nullam sit amet turpis volutpat, convallis eros a, ultrices quam. Ut at risus ut dolor volutpat dignissim. Sed hendrerit purus vitae eros euismod congue. Suspendisse potenti. Sed faucibus elit vitae nisi tempus, in posuere lectus fermentum. Sed ut volutpat libero.
+                    </p>
                 </div>
-              </div>
-              <div class="col">
-                <div class="card mb-4 rounded-3 shadow-sm">
-                  <div class="card-header py-3">
-                    <h4 class="my-0 fw-normal">Card header</h4>
-                  </div>
-                  <div class="card-body">
-                    <h1 class="card-title pricing-card-title">$15<small class="text-muted fw-light">/mo</small></h1>
-                    <ul class="list-unstyled mt-3 mb-4">
-                      <li>20 users included</li>
-                      <li>10 GB of storage</li>
-                      <li>Priority email support</li>
-                      <li>Help center access</li>
-                    </ul>
-                    <button type="button" class="w-100 btn btn-lg btn-outline-danger">Get started</button>
-                  </div>
-                </div>
-              </div>
-              <div class="col">
-                <div class="card mb-4 rounded-3 shadow-sm">
-                  <div class="card-header py-3">
-                    <h4 class="my-0 fw-normal">Card header</h4>
-                  </div>
-                  <div class="card-body">
-                    <h1 class="card-title pricing-card-title">$29<small class="text-muted fw-light">/mo</small></h1>
-                    <ul class="list-unstyled mt-3 mb-4">
-                      <li>30 users included</li>
-                      <li>15 GB of storage</li>
-                      <li>Phone and email support</li>
-                      <li>Help center access</li>
-                    </ul>
-                    <button type="button" class="w-100 btn btn-lg btn-outline-danger">Contact us</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="d-flex flex-column">
-            </div>
-        </div>
-    </section>
-
+            </section>
 {% endblock content %}

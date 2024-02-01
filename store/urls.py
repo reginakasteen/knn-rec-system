@@ -1,3 +1,5 @@
+from django.conf import settings
+from django.conf.urls.static import static
 from django.urls import path
 from . import views
 import store.views
@@ -11,3 +13,6 @@ urlpatterns = [
     path('ajax-add-review/<id>', views.ajax_add_review, name="ajax-add-review"),
     path('load-more-data', views.load_more_data, name="load-more-data"),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

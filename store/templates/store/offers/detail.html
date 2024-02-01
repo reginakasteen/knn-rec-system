@@ -183,23 +183,25 @@
                 {% csrf_token %}
                 <h4>Leave a review:</h4>
                 <div class="mt-3 mb-2">
-                    <label for="rate" class="form-label">How do you rate this product?</label>
+                    <label class="form-label">How do you rate this product?</label>
                     <div id="rate" class="rate">
-                        <input type="radio" name="rating_value" class="fa-regular" id="rating5" value="5" required><label for="rating5" title="5"></label>
-                        <input type="radio" name="rating_value" class="fa-regular" id="rating4" value="4" required><label for="rating4" title="4"></label>
+                        <input type="radio" name="rating_value" class="fa-regular" id="rating5" value="5"><label for="rating5" title="5"></label>
+                        <input type="radio" name="rating_value" class="fa-regular" id="rating4" value="4"><label for="rating4" title="4"></label>
                         <input type="radio" name="rating_value" class="fa-regular" id="rating3" value="3" required><label for="rating3" title="3"></label>
-                        <input type="radio" name="rating_value" class="fa-regular" id="rating2" value="2" required><label for="rating2" title="2"></label>
-                        <input type="radio" name="rating_value" class="fa-regular" id="rating1" value="1" required><label for="rating1" title="1"></label>
+                        <input type="radio" name="rating_value" class="fa-regular" id="rating2" value="2"><label for="rating2" title="2"></label>
+                        <input type="radio" name="rating_value" class="fa-regular" id="rating1" value="1"><label for="rating1" title="1"></label>
                     </div>
                 </div>
                 <div class="mb-3">
                     <label for="review_text" class="form-label mb-1">Review text:</label>
                     <textarea class="form-control placeholder-italic" id="review_text" name="review_text" rows="4" placeholder="Your review..."></textarea>
                 </div>
-                <button class="my-3 btn btn-lg btn-danger" type="submit">Send review</button>
-                {% if success_message %}
-                    <p style="color:#036d03; text-align: center;">{{success_message}}</p>
-                {% endif  %}
+                {% if existing_review %}
+                    <p class="text-danger">You have already left a review for this product.</p>
+                    <button class="my-3 btn btn-lg btn-danger" disabled type="submit">Send review</button>
+                {% else %}
+                    <button class="my-3 btn btn-lg btn-danger" type="submit">Send review</button>
+                {% endif %}
             </form>
 
 
@@ -301,7 +303,7 @@
     </div>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="{% static '/js/function.js' %}"></script>
+        <script src="{% static '/store/js/function.js' %}"></script>
     <script>
         function showFullDescription() {
             document.getElementById("short-description").style.display = "none";

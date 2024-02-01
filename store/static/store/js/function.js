@@ -3,7 +3,7 @@ $(document).ready(function () {
         event.preventDefault();
         var formData = $(this).serialize();
         $.ajax({
-            url: '',
+            url: $(this).attr('action'),
             type: 'POST',
             data: formData,
             dataType: 'json',

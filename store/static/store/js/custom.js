@@ -5,7 +5,7 @@ $(document).ready(function () {
         var _total=$(this).attr('data-total');
 
         $.ajax({
-            url:'/load-more-data',
+            url:'/store/load-more-data',
             data:{
                 limit: _limit,
                 offset:_currentProducts
