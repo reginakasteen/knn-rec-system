@@ -39,7 +39,6 @@ urlpatterns = [
     path('logout/', logout_view, name="logout"),
     path('login/', login_view, name="login"),
     path('account/', account_view, name="account"),
-    #path('submit_review/<slug:offer>/', submit_review, name="submit_review"),
 
 
 

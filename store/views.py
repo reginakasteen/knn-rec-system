@@ -6,7 +6,8 @@ from django.db.models import Avg
 
 
 def main_store(request):
-    offers = Offer.objects.all()
+    offers = Offer.objects.all()[:5]
+    total_offers = Offer.objects.count
     for offer in offers:
         average_reviews = Review.objects.filter(offer=offer).aggregate(rating=Avg("rating_value"))
         average_rating = Review.objects.filter(offer=offer).aggregate(rating=Avg("rating_value"))
@@ -14,6 +15,7 @@ def main_store(request):
     context = {
         'offers': offers,
         'average_rating': average_rating,
+        'total_offers': total_offers,
     }
     return render(request, 'store/store.html', context)
 
@@ -26,10 +28,18 @@ def offer_detail(request, slug):
     offer = get_object_or_404(Offer, slug=slug, is_active=True)
     reviews = Review.objects.filter(offer=offer)
 
-    if (Review.objects.filter(offer=offer).count == 0):
-        average_rating = 0.0
-    else:
+    # if request.method == 'POST':
+    #     review_form = ReviewForm(request.POST)
+    #     if review_form.is_valid():
+    #         review = review_form.save(commit=False)
+    #         review.offer = offer
+    #         review.save()
+    #         return redirect('store:offer_detail', slug=slug)
+
+    if reviews.exists():
         average_rating = Review.objects.filter(offer=offer).aggregate(rating=Avg("rating_value"))
+    else:
+        average_rating = 0.0
     review_form = ReviewForm()
     context = {
         "reviews": reviews,
@@ -46,6 +56,7 @@ def category_list_view(request, category_slug):
 
 def ajax_add_review(request, id):
     offer = Offer.objects.get(pk=id)
+    offer_slug = offer.slug
     user = request.user
     review = Review.objects.create(
         user=user,
@@ -57,6 +68,7 @@ def ajax_add_review(request, id):
         'user': user.username,
         'review_text': request.POST['review_text'],
         'rating_value': request.POST['rating_value'],
+        'offer_slug': offer.slug,
     }
     if(Review.objects.filter(offer=offer).count == 0):
         average_reviews = 0.0
@@ -70,6 +82,13 @@ def ajax_add_review(request, id):
         }
     )
 #def add_to_cart(request):
+
+def load_more_data(request):
+    offset=int(request.GET['offset'])
+    limit=int(request.GET['limit'])
+    data=Offer.objects.all()[offset:offset+limit]
+    t=render_to_string('store/store.html', {'data':data})
+    return JsonResponse({'data':t})
 
 
 

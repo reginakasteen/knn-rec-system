@@ -88,9 +88,10 @@
             </div>
             {% endfor %}
         <div class="d-flex justify-content-center">
-            <button id="load-more" class="btn-lg btn-danger my-3">Load more</button>
+            <button id="loadMore" data-total="{{ total_offers }}" data-limit="5" class="btn-lg btn-danger my-3">Load more  <i class="fa fa-sync load-more-icon"></i></button>
         </div>
     </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="{% static '/js/custom.js' %}"></script>
     {% endblock content %}
-
 </body>

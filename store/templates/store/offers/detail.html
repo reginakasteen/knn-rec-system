@@ -179,7 +179,7 @@
         </main>
         <section class="mt-5 row">
             <div class="col-md-6">
-            <form action="{% url 'store:ajax-add-review' offer.id %}" method="POST" id="review_form">
+            <form action="{% url 'store:ajax-add-review' offer.id %}" method="POST" id="commentForm">
                 {% csrf_token %}
                 <h4>Leave a review:</h4>
                 <div class="mt-3 mb-2">
@@ -214,9 +214,9 @@
                             <div class="row d-flex">
                                 <div class="col-md-2">
                                     {% if r.user.gender == "F" %}
-                                        <img src="{% static '/store/img/female.png' %}" class="ms-3 mt-2" width="70px" alt="male image">
+                                        <img src="{% static '/store/img/female.png' %}" class="ms-3 mt-2" width="70px" alt="female image">
                                     {% else %}
-                                        <img src="{% static '/store/img/male.png' %}" class="ms-3 mt-2" width="70px" alt="female image">
+                                        <img src="{% static '/store/img/male.png' %}" class="ms-3 mt-2" width="70px" alt="male image">
                                     {% endif %}
                                 </div>
                                 <div class="col-md-10 my-1">
@@ -243,7 +243,7 @@
                             {% endif %}
                             <p class="">out of 5.0</p>
                         </div>
-                        <div class="text-center"> <span class="fa fa-star star-active"></span> <span class="fa fa-star star-active mx-1"></span> <span class="fa fa-star star-active mx-1"></span> <span class="fa fa-star star-active mx-1"></span> <span class="fa fa-star star-inactive mx-1"></span> </div>
+                        <div class="text-center"> <span class="fa fa-star star-active"></span> <span class="fa fa-star star-active mx-1"></span> <span class="fa fa-star star-active mx-1"></span> <span class="fa fa-star star-inactive mx-1"></span> <span class="fa fa-star star-inactive mx-1"></span> </div>
                 </div>
                 <div class="col-md-8">
                         <div class="rating-bar0 justify-content-center">
@@ -299,6 +299,9 @@
             </div>
         </section>
     </div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="{% static '/js/function.js' %}"></script>
     <script>
         function showFullDescription() {
             document.getElementById("short-description").style.display = "none";
