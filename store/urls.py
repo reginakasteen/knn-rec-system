@@ -2,6 +2,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path
 from . import views
+import personal.views
 import store.views
 
 app_name = 'store'
