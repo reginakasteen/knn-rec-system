@@ -68,6 +68,25 @@ class Offer(models.Model):
     def get_absolute_url(self):
         return reverse('store:offer_detail', args=[self.slug])
 
+    def serialize(self):
+        return {
+            'id': self.pk,
+            'category': self.category.name,
+            'owned_by': self.owned_by.owner_name,
+            'name': self.name,
+            'slug': self.slug,
+            'location': self.slug,
+            'price': self.price,
+            'is_available': self.is_available,
+            'is_active': self.is_active,
+            'period': self.period,
+            'room_type': self.room_type,
+            'picture': self.picture,
+            'created': self.created,
+            'description': self.description,
+
+        }
+
     def __str__(self):
         return self.name
 
