@@ -42,6 +42,11 @@
         .para{
             font-size: 16px;
         }
+        .page-item a.page-link:hover {
+          background-color: #ffc9ce; /* Цвет danger */
+          border-color: #ffc9ce; /* Цвет рамки danger */
+          color: #fff; /* Цвет текста (белый для контраста) */
+        }
     </style>
 
         <div class="container-md mt-2 mb-2">
@@ -51,7 +56,7 @@
                     <div class="row p-2 bg-white border rounded mt-2 mb-2">
                         <div class="col-md-3 mt-1">
                             {% if offer.is_active %}
-                                <img class="img-fluid img-responsive rounded product-image" src="{{ offer.picture.url }}">
+                                <a href="{{ offer.get_absolute_url }}"><img class="img-fluid img-responsive rounded product-image" src="{{ offer.picture.url }}"></a>
                             {% else %}
                                 <img class="img-fluid img-responsive rounded product-image" style="opacity: 50%" src="{{ offer.picture.url }}">
                             {% endif %}
@@ -73,13 +78,13 @@
                                <h6 class="text-success">Available for rent</h6>
                                 <div class="d-flex flex-column mt-4">
                                     <a class="btn btn-danger  btn-sm" href="{{ offer.get_absolute_url }}" role="button">Details</a>
-                                    <a class="btn btn-outline-danger btn-sm mt-2" href="#" role="button">Add to cart</a>
+                                    <a class="btn btn-outline-danger btn-sm mt-2 cart-button"  data-offer-id="{{ offer.id }}" href="#" role="button">Add to cart</a>
                                 </div>
                             {% else %}
                                 <h6 class="text-danger">Reserved</h6>
                                 <div class="d-flex flex-column mt-4">
                                     <a class="btn btn-danger disabled btn-sm" href="{{ offer.get_absolute_url }}" role="button">Details</a>
-                                    <a class="btn btn-outline-danger disabled btn-sm mt-2" href="#" role="button">Add to cart</a>
+                                    <a class="btn btn-outline-danger disabled btn-sm mt-2"  href="#" role="button">Add to cart</a>
                                 </div>
                             {% endif %}
                         </div>
@@ -90,45 +95,75 @@
         <div class="d-flex justify-content-center">
 
               {% if is_paginated %}
-            <ul class="pagination">
+            <ul class="pagination text-danger">
                 {% if page_obj.has_previous %}
                 <li class="page-item">
-                    <a class="page-link" href="?page=1" aria-label="Previous">
+                    <a class="page-link text-danger" href="?page=1" aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
                         <span class="sr-only">Previous</span>
                     </a>
                 </li>
                 {% else %}
-                <li class="page-item disabled">
-                    <span class="page-link">&laquo;</span>
+                <li class="page-item text-danger disabled">
+                    <span class="page-link text-danger">&laquo;</span>
                 </li>
                 {% endif %}
 
                 {% for num in page_obj.paginator.page_range %}
                 {% if page_obj.number == num %}
-                <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                    <li class="page-item active">
+                      <span class="page-link bg-danger border-danger">{{ num }}</span>
+                    </li>
+
                 {% else %}
-                <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                <li class="page-item text-danger"><a class="page-link text-danger" href="?page={{ num }}">{{ num }}</a></li>
                 {% endif %}
                 {% endfor %}
 
                 {% if page_obj.has_next %}
                 <li class="page-item">
-                    <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                    <a class="page-link text-danger" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
                         <span aria-hidden="true">&raquo;</span>
                         <span class="sr-only">Next</span>
                     </a>
                 </li>
                 {% else %}
                 <li class="page-item disabled">
-                    <span class="page-link">&raquo;</span>
+                    <span class="page-link text-danger">&raquo;</span>
                 </li>
                 {% endif %}
             </ul>
             {% endif %}
         </div>
     </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script>
 
-        <script src="{% static 'store/js/pagination.js' %}"></script>
+        $(document).on('click', '.cart-button', function (e) {
+            e.preventDefault();
+            var offerId = $(this).data('offer-id');
+            $.ajax({
+                type: 'POST',
+                url: '{% url 'cart_add' %}',
+                data: {
+                    offer_id: offerId,
+                    offer_qty: 1,
+                    csrfmiddlewaretoken: '{{ csrf_token }}',
+                    action: 'post'
+                },
+                success: function (json){
+                    //console.log(json)
+                    document.getElementById("cart-count").
+                        textContent = json.count
+                },
+                error: function (xhr, errmsg, err) {
+
+                }
+            });
+        });
+
+        </script>
+
+
     {% endblock content %}
 </body>

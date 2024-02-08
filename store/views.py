@@ -31,7 +31,7 @@ def main_store(request):
 def category_list_view(request, category_slug):
     category = get_object_or_404(Category, slug=category_slug)
     offers = Offer.objects.filter(category=category)
-    paginator = Paginator(offers, 2)
+    paginator = Paginator(offers, 5)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     is_paginated = True if paginator.num_pages > 1 else False

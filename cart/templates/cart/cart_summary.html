@@ -1,0 +1,174 @@
+{% extends 'base.html'%}
+{% block content %}
+    <title>Cart | Dwelly</title>
+    <style type="text/css">
+    body {
+            background:#eee;
+        }
+        .ratings i {
+            font-size: 16px;
+            color: #a41515;
+        }
+        #trash-icon:hover {
+            color: #a41515;
+        }
+        .strike-text{
+            color: red;
+            text-decoration: line-through;
+        }
+        .product-image{
+            width: 100%;
+        }
+        .dot{
+            height: 7px;
+            width: 7px;
+            margin-left: 6px;
+            margin-right: 6px;
+            margin-top: 3px;
+            background-color: #a41515;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        .spec-1{
+            color: #938787;
+            font-size: 15px;
+        }
+        h5{
+            font-weight: 400;
+        }
+        .para{
+            font-size: 16px;
+        }
+    </style>
+
+    <svg xmlns="http://www.w3.org/2000/svg"  style="display: none;">
+        <symbol id="trash" viewBox="0 0 16 16">
+            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+            <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+        </symbol>
+    </svg>
+    <div class="container">
+        {% if cart|length != 0 %}
+
+    {% for item in cart_items %}
+        <div class="d-flex justify-content-center row">
+                <div class="col-md-10 product-card">
+                    <div class="row p-2 bg-white border rounded mt-2 mb-2">
+                        <div class="col-md-3 mt-1">
+                            <a href="{{ item.get_absolute_url }}"><img class="img-fluid img-responsive rounded product-image" src="{{ item.picture.url }}"></a>
+                        </div>
+                        <div class="col-md-6 mt-1">
+                            <a class="text-dark text-decoration-none" href="{{ item.get_absolute_url }}"><h5>{{ item.name }}</h5></a>
+                            <div class="mt-1 mb-1 spec-1"><span>{{ item.category|title }}</span></div>
+                            <div class="mt-1 mb-1 spec-1"><span>{{ item.owned_by.owner_name }}</span><span class="dot"></span><span>{{ item.location }}</span><span class="dot"></span><span>{{ item.room_type }}<br></span></div>
+
+
+                            <div class="d-flex flex-row align-items-center mt-3">
+                                <div class="col-md-3">
+                                    <select class="col-md-3 form-select form-select-sm" id="select{{ item.id }}">
+                                        <option selected>
+                                            {% for key, value in quantities.items %}
+                                                {% if key == item.id|slugify %}
+                                                    {{ value }}
+                                                {% endif %}
+                                            {% endfor %}
+                                        </option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                    </select>
+                                </div>
+                                <h5 class="ms-2">x ${{ item.price }}</h5><span class="mx-2 text-muted fw-light">{{ item.get_period_display }}</span>
+                            </div>
+                        </div>
+                        <div class="align-items-center align-content-center col-md-3 border-left mt-1">
+                            <div class="col-md-12 row d-flex">
+                                <div class="col-md-6 d-flex flex-row align-items-center">
+                                    <h4 class="mr-1">${{ item.price }}</h4><span class="mx-2 text-muted fw-light">total</span>
+                                </div>
+                                <div class="col-md-3 offset-3 text-center">
+                                    <a href="#" role="button" data-index="{{ item.id }}" class="nav-link text-dark delete-cart">
+                                        <svg class="bi d-block bi-trash ms-2" id="trash-icon" width="24" height="24"><use xlink:href="#trash"/></svg>
+                                    </a>
+                                </div>
+                            </div>
+                                <div class="d-flex flex-column mt-4">
+                                    <a class="btn btn-danger  btn-sm" href="#" role="button">Product page</a>
+                                    <button class="btn btn-secondary btn-sm mt-2 update-cart" data-index="{{ item.id }}" type="button">Update</button>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    {% endfor %}
+
+        <div class="offset-2 col-md-10">
+            <div class="col-md-3 mb-4">
+                <h3 class="d-block">Total:  <span class="h4">  ${{ totals }}</span></h3>
+            </div>
+
+        </div>
+    </div>
+        {% else %}
+            <div class="jusify-content-center m-auto" style="height: 100vh;">
+                <div class="text-center">
+                    <h3>Your cart is empty, no orders yet.<br>Would you like to <a class="text-danger text-decoration-none" href="{% url 'store:main_store' %}">book anything</a>?</h3>
+                </div>
+            </div>
+        {% endif %}
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).on('click', '.update-cart', function (e) {
+            e.preventDefault();
+            var offer_id = $(this).data('index');
+
+            $.ajax({
+                type: 'POST',
+                url: '{% url 'cart_update' %}',
+                data: {
+                    offer_id: $(this).data('index'),
+                    offer_qty: $('#select' + offer_id + ' option:selected').text(),
+                    csrfmiddlewaretoken: '{{ csrf_token }}',
+                    action: 'post'
+                },
+                success: function (json){
+                    //console.log(json)
+                    document.getElementById("cart-count").
+                        textContent = json.count
+                    location.reload()
+                },
+                error: function (xhr, errmsg, err) {
+
+                }
+            });
+        });
+
+
+        $(document).on('click', '.delete-cart', function (e) {
+            e.preventDefault();
+            var offer_id = $(this).data('index');
+
+            $.ajax({
+                type: 'POST',
+                url: '{% url 'cart_delete' %}',
+                data: {
+                    offer_id: $(this).data('index'),
+                    offer_qty: $('#select' + offer_id + ' option:selected').text(),
+                    csrfmiddlewaretoken: '{{ csrf_token }}',
+                    action: 'post'
+                },
+                success: function (json){
+                    //console.log(json)
+                    //document.getElementById("cart-count").textContent = json.count
+                    location.reload()
+                },
+                error: function (xhr, errmsg, err) {
+
+                }
+            });
+        });
+
+    </script>
+{% endblock content %}

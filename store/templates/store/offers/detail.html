@@ -169,10 +169,16 @@
                         <div class="col">
                             <div class="row p-3">
                                 <div class="col-6">
+                                    <p>How many periods would you like to book?</p>
+                                    <select class="col-md-3 form-select form-select-sm" id="total-cart">
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                    </select>
                                 </div>
                                 <div class="col-6 text-end">
                                     <button type="button" class="btn btn-danger btn-md">Reserve</button>
-                                    <button type="button" class="btn btn-secondary btn-md">Add to cart</button>
+                                    <button type="button" value="{{ offer.id }}" id="cart-button" class="btn btn-secondary btn-md">Add to cart</button>
                                 </div>
                             </div>
                         </div>
@@ -330,6 +336,30 @@
             document.getElementById("full-description").style.display = "none";
             document.getElementById("short-description").style.display = "block";
         }
+    </script>
+    <script>
+    $(document).on('click', '#cart-button', function (e) {
+            e.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: '{% url 'cart_add' %}',
+                data: {
+                    offer_id: $('#cart-button').val(),
+                    offer_qty: $('#total-cart option:selected').text(),
+                    csrfmiddlewaretoken: '{{ csrf_token }}',
+                    action: 'post'
+                },
+                success: function (json){
+                    //console.log(json)
+                    document.getElementById("cart-count").
+                        textContent = json.count
+                },
+                error: function (xhr, errmsg, err) {
+
+                }
+            });
+        });
+
     </script>
 {% endblock %}
 </body>

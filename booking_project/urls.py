@@ -33,6 +33,7 @@ from account.views import (
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('store/', include('store.urls', namespace='store')),
+    path('cart/', include('cart.urls')),
     path('', home_screen_view, name="home"),
     path('register/', registration_view, name="register"),
     path('logout/', logout_view, name="logout"),
