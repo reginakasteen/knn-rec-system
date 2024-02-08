@@ -353,6 +353,8 @@
                     //console.log(json)
                     document.getElementById("cart-count").
                         textContent = json.count
+                    location.reload();
+
                 },
                 error: function (xhr, errmsg, err) {
 

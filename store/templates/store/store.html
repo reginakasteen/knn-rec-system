@@ -77,8 +77,16 @@
                             {% if offer.is_active %}
                                <h6 class="text-success">Available for rent</h6>
                                 <div class="d-flex flex-column mt-4">
-                                    <a class="btn btn-danger  btn-sm" href="{{ offer.get_absolute_url }}" role="button">Details</a>
+                                {% if user.is_authenticated %}
+                                    <form action="/history/" method="POST">{% csrf_token %}
+                                        <input type="hidden" name="id" value="{{ offer.id }}">
+                                        <a href="{{ offer.get_absolute_url }}" role="button"><button class="btn btn-danger btn-sm w-100"> Details</button> </a>
+                                    </form>
                                     <a class="btn btn-outline-danger btn-sm mt-2 cart-button"  data-offer-id="{{ offer.id }}" href="#" role="button">Add to cart</a>
+                                {% else %}
+                                    <a class="btn btn-danger  btn-sm" href="{{ offer.get_absolute_url }}" role="button">Details</a>
+                                    <a class="btn btn-outline-danger btn-sm mt-2" href="{% url 'login' %}" role="button">Add to cart</a>
+                                    {% endif %}
                                 </div>
                             {% else %}
                                 <h6 class="text-danger">Reserved</h6>

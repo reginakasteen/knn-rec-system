@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from .cart import Cart
 from store.models import Offer
 from django.http import JsonResponse
+from django.contrib import messages
 
 
 def cart_summary(request):
@@ -28,6 +29,7 @@ def cart_add(request):
         response = JsonResponse({
             'count': cart_count,
         })
+        messages.success(request, ("Product added to cart"))
         return response
 
 
