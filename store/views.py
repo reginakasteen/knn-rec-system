@@ -107,15 +107,17 @@ def ajax_add_review(request, id):
                 'average_rating': average_reviews,
             }
         )
-#def add_to_cart(request):
 
+def search(request):
+    if request.method == "POST":
+        searched = request.POST['searched']
+        offers = Offer.objects.filter(name__icontains=searched)
 
+        context = {
+            'searched': searched,
+            'offers': offers,
 
-
-# def load_more_data(request):
-#     offset = int(request.GET.get('offset', 0))
-#     limit = int(request.GET.get('limit', 5))
-#     data = Offer.objects.all()[offset:offset + limit]
-#     serialized_data = serialize('json', data)
-#     return JsonResponse({'data': serialized_data})
-
+        }
+        return render(request, 'store/search.html', context)
+    else:
+        return render(request, 'store/search.html', {})

@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <title>Search "{{ searched }}" | Dwelly</title>
+
+    <style type="text/css">
+        body {
+            background:#eee;
+        }
+        .ratings i {
+            font-size: 16px;
+            color: #a41515;
+        }
+        .strike-text{
+            color: red;
+            text-decoration: line-through;
+        }
+        .product-image{
+            width: 100%;
+        }
+        .dot{
+            height: 7px;
+            width: 7px;
+            margin-left: 6px;
+            margin-right: 6px;
+            margin-top: 3px;
+            background-color: #a41515;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        .spec-1{
+            color: #938787;
+            font-size: 15px;
+        }
+        h5{
+            font-weight: 400;
+        }
+        .para{
+            font-size: 16px;
+        }
+    </style>
+    <div class="jusify-content-center m-auto" style="height: 100vh;">
+                <div>
+                    {% if searched %}
+
+                        <div class="container">
+                        <div class="text-center">
+                            <h3 class="my-4">Searching results for "{{ searched }}":</h3>
+                        </div>
+                        <div class="d-flex justify-content-center row">
+                        {% for offer in offers %}
+                            <div class="col-md-10">
+                    <div class="row p-2 bg-white border rounded mt-2 mb-2">
+                        <div class="col-md-3 mt-2">
+                            {% if offer.is_active %}
+                                <a href="{{ offer.get_absolute_url }}"><img class="img-fluid img-responsive rounded product-image" src="{{ offer.picture.url }}"></a>
+                            {% else %}
+                                <img class="img-fluid img-responsive rounded product-image" style="opacity: 50%" src="{{ offer.picture.url }}">
+                            {% endif %}
+                        </div>
+                        <div class="col-md-6 mt-1">
+                            <h5>{{ offer.name }}</h5>
+                            <div class="d-flex flex-row">
+                                <div class="ratings mr-2 mt-2">{{ offer.average_rating|floatformat:"1" }}<i class="fa fa-star"> </i> based on   {{ offer.reviews.count }} reviews</div>
+                            </div>
+                            <div class="mt-1 mb-1 spec-1"><span>{{ offer.created|date:"d M, Y" }}</span><span class="dot"></span><span>{{ offer.category|title }}</span></div>
+                            <div class="mt-1 mb-1 spec-1"><span>{{ offer.owned_by }}</span><span class="dot"></span><span>{{ offer.location }}</span><span class="dot"></span><span>{{ offer.room_type }}<br></span></div>
+                            <p class="text-justify text-truncate para mb-0">{{ offer.description }}</p>
+                        </div>
+                        <div class="align-items-center align-content-center col-md-3 border-left mt-1">
+                            <div class="d-flex flex-row align-items-center">
+                                <h4 class="mr-1">${{ offer.price }}</h4><span class="mx-2 text-muted fw-light">{{ offer.get_period_display }}</span>
+                            </div>
+                            {% if offer.is_active %}
+                               <h6 class="text-success">Available for rent</h6>
+                                <div class="d-flex flex-column mt-4">
+                                    <a class="btn btn-danger  btn-sm" href="{{ offer.get_absolute_url }}" role="button">Details</a>
+                                    <a class="btn btn-outline-danger btn-sm mt-2" href="#" role="button">Add to cart</a>
+                                </div>
+                            {% else %}
+                                <h6 class="text-danger">Reserved</h6>
+                                <div class="d-flex flex-column mt-4">
+                                    <a class="btn btn-danger disabled btn-sm" href="{{ offer.get_absolute_url }}" role="button">Details</a>
+                                    <a class="btn btn-outline-danger disabled btn-sm mt-2" href="#" role="button">Add to cart</a>
+                                </div>
+                            {% endif %}
+
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+                        </div>
+
+                        {% else %}
+                        <h3>Sorry, you forgot to specify the keyword</h3>
+                    {% endif %}
+                </div>
+    </div>
+{% endblock %}
