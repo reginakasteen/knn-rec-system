@@ -43,64 +43,220 @@
             font-size: 16px;
         }
         .page-item a.page-link:hover {
-          background-color: #ffc9ce; /* Цвет danger */
-          border-color: #ffc9ce; /* Цвет рамки danger */
-          color: #fff; /* Цвет текста (белый для контраста) */
+          background-color: #ffc9ce;
+          border-color: #ffc9ce;
+          color: #fff;
+        }
+        .vcenter {
+          display: inline-block;
+          float: none;
+          vertical-align: middle;
+        }
+        .owners-list li.d-none {
+            display: none;
+        }
+
+        input[type=range] {
+          height: 20px;
+          -webkit-appearance: none;
+          margin: 5px 0;
+          width: 100%;
+        }
+        input[type=range]:focus {
+          outline: none;
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+          width: 100%;
+          height: 8px;
+          cursor: pointer;
+          animate: 0.2s;
+          box-shadow: 1px 1px 1px #5c5050;
+          background: #5c5050;
+          border-radius: 14px;
+          border: 0px solid #000000;
+        }
+        input[type=range]::-webkit-slider-thumb {
+          box-shadow: 0px 0px 0px #000000;
+          border: 0px solid #000000;
+          height: 15px;
+          width: 40px;
+          border-radius: 12px;
+          background: #d9534f;
+          cursor: pointer;
+          -webkit-appearance: none;
+          margin-top: -3px;
+        }
+        input[type=range]:focus::-webkit-slider-runnable-track {
+          background: #5c5050;
+        }
+        input[type=range]::-moz-range-track {
+          width: 100%;
+          height: 14px;
+          cursor: pointer;
+          animate: 0.2s;
+          box-shadow: 1px 1px 1px #5c5050;
+          background: #5c5050;
+          border-radius: 14px;
+          border: 0px solid #000000;
+        }
+        input[type=range]::-moz-range-thumb {
+          box-shadow: 0px 0px 0px #000000;
+          border: 0px solid #000000;
+          height: 15px;
+          width: 40px;
+          border-radius: 12px;
+          background: #d9534f;
+          cursor: pointer;
+        }
+        input[type=range]::-ms-track {
+          width: 100%;
+          height: 14px;
+          cursor: pointer;
+          animate: 0.2s;
+          background: transparent;
+          border-color: transparent;
+          color: transparent;
+        }
+        input[type=range]::-ms-fill-lower {
+          background: #5c5050;
+          border: 0px solid #000000;
+          border-radius: 28px;
+          box-shadow: 1px 1px 1px #5c5050;
+        }
+        input[type=range]::-ms-fill-upper {
+          background: #5c5050;
+          border: 0px solid #000000;
+          border-radius: 28px;
+          box-shadow: 1px 1px 1px #5c5050;
+        }
+        input[type=range]::-ms-thumb {
+          margin-top: 1px;
+          box-shadow: 0px 0px 0px #000000;
+          border: 0px solid #000000;
+          height: 15px;
+          width: 40px;
+          border-radius: 12px;
+          background: #d9534f;
+          cursor: pointer;
+        }
+        input[type=range]:focus::-ms-fill-lower {
+          background: #5c5050;
+        }
+        input[type=range]:focus::-ms-fill-upper {
+          background: #5c5050;
         }
     </style>
 
-        <div class="container-md mt-2 mb-2">
-        {% for offer in page_obj %}
+        <div class="container justify-items-center mt-2 mb-2">
             <div class="d-flex justify-content-center row">
-                <div class="col-md-10 product-card">
-                    <div class="row p-2 bg-white border rounded mt-2 mb-2">
-                        <div class="col-md-3 mt-1">
-                            {% if offer.is_active %}
-                                <a href="{{ offer.get_absolute_url }}"><img class="img-fluid img-responsive rounded product-image" src="{{ offer.picture.url }}"></a>
-                            {% else %}
-                                <img class="img-fluid img-responsive rounded product-image" style="opacity: 50%" src="{{ offer.picture.url }}">
-                            {% endif %}
-                        </div>
-                        <div class="col-md-6 mt-1">
-                            <h5>{{ offer.name }}</h5>
-                            <div class="d-flex flex-row">
-                                <div class="ratings mr-2 mt-2">{{ offer.average_rating|floatformat:"1" }}<i class="fa fa-star"> </i> based on   {{ offer.reviews.count }} reviews</div>
+                <div class="col-xl-4 col-lg-6 col-md-6 mb-lg-0 mb-md-2">
+                        <div class="card py-2 px-1">
+                            <h5 class="p-2 text-center">Owners</h5>
+                            <ul class="owners-list">
+                                {% for o in owners %}
+                                    <li class="d-flex {% if forloop.counter > 5 %}d-none{% endif %}">
+                                        <div class="my-auto">
+                                            <input class="form-check-input filter-checkbox" type="checkbox" name="checkbox" id="checkBoxId1" data-filter="owner" value="{{ o.id }}">
+                                        </div>
+                                        <a><p class="p-2 my-auto">{{ o.owner_name|title }}</p></a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                            <div class="px-2">
+                                <button class="btn btn-danger show-more-btn m-auto w-100">Show More</button>
                             </div>
-                            <div class="mt-1 mb-1 spec-1"><span>{{ offer.created|date:"d M, Y" }}</span><span class="dot"></span><span>{{ offer.category|title }}</span></div>
-                            <div class="mt-1 mb-1 spec-1"><span>{{ offer.owned_by.owner_name }}</span><span class="dot"></span><span>{{ offer.location }}</span><span class="dot"></span><span>{{ offer.room_type }}<br></span></div>
-                            <p class="text-justify text-truncate para mb-0">{{ offer.description }}</p>
                         </div>
-                        <div class="align-items-center align-content-center col-md-3 border-left mt-1">
-                            <div class="d-flex flex-row align-items-center">
-                                <h4 class="mr-1">${{ offer.price }}</h4><span class="mx-2 text-muted fw-light">{{ offer.get_period_display }}</span>
+                    </div>
+
+                    <div class="col-md-2 mb-2">
+                        <div class="card py-2 ">
+                            <h5 class="p-2 text-center">Categories</h5>
+                                <ul class="category-list">
+                                    {% for c in categories %}
+                                        <li class="d-flex {% if forloop.counter > 5 %}d-none{% endif %}">
+                                            <input class="form-check-input filter-checkbox my-auto" type="checkbox" name="checkbox" id="checkBoxId2" data-filter="category" value="{{ c.id }}">
+                                            <a><p class="p-2 my-auto">{{ c.name|title }}</p></a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            <div class="px-2">
+                                <button class="btn btn-danger m-auto w-100" id="show-more-btn">Show More</button>
                             </div>
-                            {% if offer.is_active %}
-                               <h6 class="text-success">Available for rent</h6>
-                                <div class="d-flex flex-column mt-4">
-                                {% if user.is_authenticated %}
-                                    <form action="/history/" method="POST">{% csrf_token %}
-                                        <input type="hidden" name="id" value="{{ offer.id }}">
-                                        <a href="{{ offer.get_absolute_url }}" role="button"><button class="btn btn-danger btn-sm w-100"> Details</button> </a>
-                                    </form>
-                                    <a class="btn btn-outline-danger btn-sm mt-2 cart-button"  data-offer-id="{{ offer.id }}" href="#" role="button">Add to cart</a>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-lg-0 mb-md-2">
+                        <div class="card py-2">
+                            <h5 class="p-2 text-center">Price</h5>
+                            <div class="py-1 px-3">
+                                <div>
+                                    <div>
+                                        <input class="w-100 slider-range" type="range" id="range" value="{{ min_max_price.price__min }}" oninput="max_price.value=this.value" min="{{ min_max_price.price__min }}" max="{{ min_max_price.price__max }}" >
+                                    </div>
+                                    <div class="justify-content-between d-flex">
+                                        <div class="caption">From: <strong id="slider-range-value1">${{ min_max_price.price__min }}</strong></div>
+                                        <div class="caption">To: <strong id="slider-range-value2">${{ min_max_price.price__max }}</strong></div>
+                                    </div>
+                                    <input class="w-100 my-2 form-control" onkeyup="range.value=this.value" type="number" name="" value="{{ min_max_price.price__min }}" id="max_price" placeholder="Current price" min="{{ min_max_price.price__min }}" max="{{ min_max_price.price__max }}">
+                                </div>
+                                <button class="btn btn-danger w-100 ">Filter</button>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+
+        <div id="filtered-items">
+            {% for offer in page_obj %}
+                <div class="d-flex justify-content-center row">
+                    <div class="col-md-10 product-card">
+                        <div class="row p-2 bg-white border rounded mt-2 mb-2">
+                            <div class="col-md-3 mt-1">
+                                {% if offer.is_active %}
+                                    <a href="{{ offer.get_absolute_url }}"><img class="img-fluid img-responsive rounded product-image" src="{{ offer.picture.url }}"></a>
                                 {% else %}
-                                    <a class="btn btn-danger  btn-sm" href="{{ offer.get_absolute_url }}" role="button">Details</a>
-                                    <a class="btn btn-outline-danger btn-sm mt-2" href="{% url 'login' %}" role="button">Add to cart</a>
-                                    {% endif %}
+                                    <img class="img-fluid img-responsive rounded product-image" style="opacity: 50%" src="{{ offer.picture.url }}">
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6 mt-1">
+                                <h5>{{ offer.name }}</h5>
+                                <div class="d-flex flex-row">
+                                    <div class="ratings mr-2 mt-2">{{ offer.average_rating|floatformat:"1" }}<i class="fa fa-star"> </i> based on   {{ offer.reviews.count }} reviews</div>
                                 </div>
-                            {% else %}
-                                <h6 class="text-danger">Reserved</h6>
-                                <div class="d-flex flex-column mt-4">
-                                    <a class="btn btn-danger disabled btn-sm" href="{{ offer.get_absolute_url }}" role="button">Details</a>
-                                    <a class="btn btn-outline-danger disabled btn-sm mt-2"  href="#" role="button">Add to cart</a>
+                                <div class="mt-1 mb-1 spec-1"><span>{{ offer.created|date:"d M, Y" }}</span><span class="dot"></span><span>{{ offer.category|title }}</span></div>
+                                <div class="mt-1 mb-1 spec-1"><span>{{ offer.owned_by.owner_name }}</span><span class="dot"></span><span>{{ offer.location }}</span><span class="dot"></span><span>{{ offer.room_type }}<br></span></div>
+                                <p class="text-justify text-truncate para mb-0">{{ offer.description }}</p>
+                            </div>
+                            <div class="align-items-center align-content-center col-md-3 border-left mt-1">
+                                <div class="d-flex flex-row align-items-center">
+                                    <h4 class="mr-1">${{ offer.price }}</h4><span class="mx-2 text-muted fw-light">{{ offer.get_period_display }}</span>
                                 </div>
-                            {% endif %}
+                                {% if offer.is_active %}
+                                   <h6 class="text-success">Available for rent</h6>
+                                    <div class="d-flex flex-column mt-4">
+                                    {% if user.is_authenticated %}
+                                        <form action="/history/" method="POST">{% csrf_token %}
+                                            <input type="hidden" name="id" value="{{ offer.id }}">
+                                            <a href="{{ offer.get_absolute_url }}" role="button"><button class="btn btn-danger btn-sm w-100"> Details</button> </a>
+                                        </form>
+                                        <a class="btn btn-outline-danger btn-sm mt-2 cart-button"  data-offer-id="{{ offer.id }}" href="#" role="button">Add to cart</a>
+                                    {% else %}
+                                        <a class="btn btn-danger  btn-sm" href="{{ offer.get_absolute_url }}" role="button">Details</a>
+                                        <a class="btn btn-outline-danger btn-sm mt-2" href="{% url 'login' %}" role="button">Add to cart</a>
+                                        {% endif %}
+                                    </div>
+                                {% else %}
+                                    <h6 class="text-danger">Reserved</h6>
+                                    <div class="d-flex flex-column mt-4">
+                                        <a class="btn btn-danger disabled btn-sm" href="{{ offer.get_absolute_url }}" role="button">Details</a>
+                                        <a class="btn btn-outline-danger disabled btn-sm mt-2"  href="#" role="button">Add to cart</a>
+                                    </div>
+                                {% endif %}
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
             {% endfor %}
-        <div class="d-flex justify-content-center">
+        </div>
+        <div class="d-flex justify-content-center" id="pagination">
 
               {% if is_paginated %}
             <ul class="pagination text-danger">
@@ -143,7 +299,7 @@
             </ul>
             {% endif %}
         </div>
-    </div>
+        </div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script>
 
@@ -160,7 +316,6 @@
                     action: 'post'
                 },
                 success: function (json){
-                    //console.log(json)
                     document.getElementById("cart-count").
                         textContent = json.count
                 },
@@ -170,6 +325,52 @@
             });
         });
 
+        $(document).ready(function(){
+            $(".loader").hide()
+
+            $(".filter-checkbox").on("click", function(){
+                console.log("Clicked");
+                let filter_object = {};
+
+                $(".filter-checkbox").each(function(index){
+                    let filter_value = $(this).val();
+                    let filter_key = $(this).data("filter");
+                    filter_object[filter_key] = Array.from(document.querySelectorAll('input[data-filter='+filter_key+']:checked')).map(function (element){
+                       return element.value;
+                    });
+
+                });
+                console.log(filter_object);
+                $.ajax({
+                   url: '{% url 'store:filter-items' %}',
+                    data: filter_object,
+                    dataType: 'json',
+                    beforeSend: function () {
+                        console.log("Sending data");
+                    },
+                    success: function (response) {
+                        console.log(response);
+                        console.log("Data filtred");
+                        $("#filtered-items").html(response.data)
+                        $("#pagination").css("display", "none");
+
+                    }
+                });
+
+            });
+        });
+        $(document).ready(function(){
+            $('.show-more-btn').click(function(){
+                $('.owners-list li.d-none').toggleClass('d-none');
+                $(this).hide();
+            });
+        });
+        $(document).ready(function(){
+            $('#show-more-btn').click(function(){
+                $('.category-list li.d-none').toggleClass('d-none');
+                $(this).hide();
+            });
+        });
         </script>
 
 

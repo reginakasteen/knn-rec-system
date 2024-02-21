@@ -1,9 +1,9 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
-from .models import Category, Offer, Review
+from .models import Category, Offer, Review, Owner
 from .review_form import ReviewForm
 from django.urls import reverse
-from django.db.models import Avg
+from django.db.models import Avg, Max, Min, Count
 from django.template.loader import render_to_string
 from django.core.serializers import serialize
 from django.core.paginator import Paginator
@@ -11,6 +11,8 @@ from django.views.generic import ListView
 
 
 def main_store(request):
+    min_max_price = Offer.objects.aggregate(Min("price"), Max("price"))
+    owners = Owner.objects.all()
     offers = Offer.objects.all()
     paginator = Paginator(offers, 5)
     page_number = request.GET.get('page')
@@ -25,6 +27,8 @@ def main_store(request):
         'average_rating': average_rating,
         'page_obj': page_obj,
         'is_paginated': is_paginated,
+        'owners': owners,
+        'min_max_price': min_max_price,
     }
     return render(request, 'store/store.html', context)
 
@@ -112,12 +116,33 @@ def search(request):
     if request.method == "POST":
         searched = request.POST['searched']
         offers = Offer.objects.filter(name__icontains=searched)
-
+        for offer in offers:
+            average_reviews = Review.objects.filter(offer=offer).aggregate(rating=Avg("rating_value"))
+            average_rating = Review.objects.filter(offer=offer).aggregate(rating=Avg("rating_value"))
+            offer.average_rating = average_reviews['rating'] if average_reviews['rating'] else 0
         context = {
             'searched': searched,
             'offers': offers,
+            'average_rating': average_rating,
 
         }
         return render(request, 'store/search.html', context)
     else:
         return render(request, 'store/search.html', {})
+
+def filter_items(request):
+    categories = request.GET.getlist("category[]")
+    owners = request.GET.getlist("owner[]")
+    page_obj = Offer.objects.all()
+
+    if len(categories) > 0:
+        page_obj = page_obj.filter(category__id__in=categories).distinct()
+
+    if len(owners) > 0:
+        page_obj = page_obj.filter(owned_by__id__in=owners).distinct()
+
+    data = render_to_string("store/offers/filter_list.html", {'page_obj': page_obj})
+    return JsonResponse({
+        "data": data,
+    })
+

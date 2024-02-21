@@ -9,9 +9,9 @@
         }
         #text {
             position: absolute;
+            color: #ffffff;
             font-size: 5em;
-            color: #333;
-            text-shadow: 2px 2px 4px rgb(0,0,0,.2);
+            text-shadow: 2px 2px 4px rgb(0,0,0,.4);
         }
         #body, .cover, #parallax img {
             margin: 0;
@@ -19,7 +19,6 @@
             box-sizing: border-box;
         }
         #body {
-            background: #888;
             overflow: hidden;
         }
         #parallax img {
@@ -35,12 +34,12 @@
 <div id="cover">
     <div id="body">
         <div id="parallax">
-            <h1 class="p-0" id="text">Dwelly</h1>
             <img src="{% static '/personal/img/parallax/layer0.png' %}" id="sky" alt="sky">
             <img src="{% static '/personal/img/parallax/layer1.png' %}" id="clouds" alt="clouds">
             <img src="{% static '/personal/img/parallax/layer2.png' %}" id="houses1" alt="houses1">
             <img src="{% static '/personal/img/parallax/layer3.png' %}" id="houses2" alt="houses2">
             <img src="{% static '/personal/img/parallax/layer4.png' %}" id="houses3" alt="houses3">
+            <h1 id="text">Dwelly</h1>
             <img src="{% static '/personal/img/parallax/layer5.png' %}" id="trees" alt="trees">
         </div>
 

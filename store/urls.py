@@ -14,6 +14,7 @@ urlpatterns = [
     path('search/<slug:category_slug>/', views.category_list_view, name="category_list_view"),
     path('ajax-add-review/<id>', views.ajax_add_review, name="ajax-add-review"),
     path('search/', views.search, name="search"),
+    path('filter-items/', views.filter_items, name="filter-items"),
 ]
 
 if settings.DEBUG:

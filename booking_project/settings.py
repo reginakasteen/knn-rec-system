@@ -78,6 +78,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'store.views.categories',
                 'cart.context_processors.cart',
+                #'booking_project.content_processor'
 
 
             ],

@@ -40,6 +40,7 @@ class Owner(models.Model):
 
     class Meta:
         verbose_name_plural = 'owners'
+        ordering = ('owner_name',)
 
     def __str__(self):
         return self.owner_name
