@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
     <style type="text/css">
@@ -34,6 +35,7 @@
             font-weight: 400;
         }
     </style>
+    <title>History | Dwelly</title>
     <div class="container-md">
     <div class="d-flex justify-content-center row">
     {% if page_obj|length != 0 %}
@@ -89,7 +91,42 @@
         </div>
     {% else %}
         <div style="height: 100vh;">
-            <h2 class="p-2 text-center">Your browsing history is empty. <br>This might interest you:</h2>
+            <h2 class="p-2 mt-2 text-center">Your browsing history is empty. <br>This might interest you (recommendations):</h2>
+
+        <div class="d-flex">
+            {% for i in "12345" %}
+            <div class="col-md-2 mx-4 product-card">
+                        <div class="row p-2 bg-white border rounded mt-2 mb-1">
+                            <a href="#"><img class="img-fluid img-responsive rounded product-image" src="{% static '/history/img/img.png' %}"></a>
+                            <div class="col-md-12 mt-1">
+                                <h5>Recomendation Title</h5>
+                                <div class="d-flex flex-row">
+                                </div>
+                                <div class="mt-1 mb-1 spec-1"><span>26 Jun, 2020</span><span class="dot"></span><span>Category</span></div>
+                                <div class="mt-1 mb-1 spec-1"><span>Owner</span></div>
+                            </div>
+                            <div class="align-items-center align-content-center col-md-12 border-left mt-1">
+                                <div class="d-flex flex-row align-items-center mb-1">
+                                    <h4 class="col-md-3">$100</h4><span class="mx-2 col-md-5 text-muted fw-light">per day</span>
+                                    <div class="ratings col-md-4 pe-3 text-end mt-1">3.9<i class="fa fa-star"> </i></div>
+                                </div>
+                                    {% if user.is_authenticated %}
+                                        <form action="/history/" method="POST">{% csrf_token %}
+                                            <input type="hidden" name="id" value="#">
+                                            <a href="#" role="button"><button class="btn btn-danger btn-sm w-100"> Details</button> </a>
+                                        </form>
+                                    {% endif %}
+                            </div>
+                        </div>
+                    </div>
+            {% endfor %}
+
+            </div>
+            <h3 class="text-center my-3">Not finding anything suitable?</h3>
+            <div class="col-md-12 d-flex justify-content-center my-3">
+
+            <a role="button" class="btn btn-lg btn-danger col-md-2" href="{% url 'store:main_store' %}">Go to Store</a>
+        </div>
         </div>
 
     {% endif %}

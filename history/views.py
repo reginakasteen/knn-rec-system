@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from history.models import ViewHistory
-from django.db.models import Avg
+from django.db.models import Avg, F
 from store.models import Offer, Review
-from django.db.models import F
 from django.core.paginator import Paginator
+from collections import OrderedDict
+
 
 
 def history_view(request):
@@ -16,9 +17,6 @@ def history_view(request):
         return redirect(f'../store/item/{offer.slug}')
     return render(request, 'history/history.html')
 
-
-
-from collections import OrderedDict
 
 def all_history(request):
     view_history_entries = ViewHistory.objects.filter(user=request.user).order_by('-view_date')

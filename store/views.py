@@ -133,7 +133,13 @@ def search(request):
 def filter_items(request):
     categories = request.GET.getlist("category[]")
     owners = request.GET.getlist("owner[]")
-    page_obj = Offer.objects.all()
+    min_price = request.GET['min_price']
+    max_price = request.GET['max_price']
+
+    page_obj = Offer.objects.filter(is_active=True)
+    page_obj = page_obj.filter(price__gte=min_price)
+    page_obj = page_obj.filter(price__lte=max_price)
+
 
     if len(categories) > 0:
         page_obj = page_obj.filter(category__id__in=categories).distinct()
@@ -141,7 +147,8 @@ def filter_items(request):
     if len(owners) > 0:
         page_obj = page_obj.filter(owned_by__id__in=owners).distinct()
 
-    data = render_to_string("store/offers/filter_list.html", {'page_obj': page_obj})
+
+    data = render_to_string("store/offers/filter_list.html", {'page_obj': page_obj, })
     return JsonResponse({
         "data": data,
     })

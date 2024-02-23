@@ -164,11 +164,12 @@
                             </ul>
                             <div class="px-2">
                                 <button class="btn btn-danger show-more-btn m-auto w-100">Show More</button>
+                                <button class="btn btn-danger show-less-btn m-auto w-100">Show Less</button>
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-md-2 mb-2">
+                    <div class="col-md-3 mb-2">
                         <div class="card py-2 ">
                             <h5 class="p-2 text-center">Categories</h5>
                                 <ul class="category-list">
@@ -181,6 +182,7 @@
                                 </ul>
                             <div class="px-2">
                                 <button class="btn btn-danger m-auto w-100" id="show-more-btn">Show More</button>
+                                <button class="btn btn-danger m-auto w-100" id="show-less-btn">Show Less</button>
                             </div>
                         </div>
                     </div>
@@ -190,15 +192,15 @@
                             <div class="py-1 px-3">
                                 <div>
                                     <div>
-                                        <input class="w-100 slider-range" type="range" id="range" value="{{ min_max_price.price__min }}" oninput="max_price.value=this.value" min="{{ min_max_price.price__min }}" max="{{ min_max_price.price__max }}" >
+                                        <input class="w-100 slider-range" type="range" id="range" value="{{ min_max_price.price__max }}" oninput="max_price.value=this.value" min="{{ min_max_price.price__min }}" max="{{ min_max_price.price__max }}" >
                                     </div>
                                     <div class="justify-content-between d-flex">
                                         <div class="caption">From: <strong id="slider-range-value1">${{ min_max_price.price__min }}</strong></div>
                                         <div class="caption">To: <strong id="slider-range-value2">${{ min_max_price.price__max }}</strong></div>
                                     </div>
-                                    <input class="w-100 my-2 form-control" onkeyup="range.value=this.value" type="number" name="" value="{{ min_max_price.price__min }}" id="max_price" placeholder="Current price" min="{{ min_max_price.price__min }}" max="{{ min_max_price.price__max }}">
+                                    <input class="w-100 my-2 form-control" id="max_price" onkeyup="range.value=this.value" type="number" value="{{ min_max_price.price__max }}" placeholder="Maximum price" min="{{ min_max_price.price__min }}" max="{{ min_max_price.price__max }}">
                                 </div>
-                                <button class="btn btn-danger w-100 ">Filter</button>
+                                <button class="btn btn-danger w-100" type="button" id="price-filter">Filter</button>
                             </div>
                         </div>
                     </div>
@@ -237,7 +239,7 @@
                                             <input type="hidden" name="id" value="{{ offer.id }}">
                                             <a href="{{ offer.get_absolute_url }}" role="button"><button class="btn btn-danger btn-sm w-100"> Details</button> </a>
                                         </form>
-                                        <a class="btn btn-outline-danger btn-sm mt-2 cart-button"  data-offer-id="{{ offer.id }}" href="#" role="button">Add to cart</a>
+                                        <a class="btn btn-outline-danger btn-sm mt-2 cart-button" id="cart-button"  data-offer-id="{{ offer.id }}" href="{% url 'cart_summary' %}" role="button">Add to cart</a>
                                     {% else %}
                                         <a class="btn btn-danger  btn-sm" href="{{ offer.get_absolute_url }}" role="button">Details</a>
                                         <a class="btn btn-outline-danger btn-sm mt-2" href="{% url 'login' %}" role="button">Add to cart</a>
@@ -255,7 +257,6 @@
                     </div>
                 </div>
             {% endfor %}
-        </div>
         <div class="d-flex justify-content-center" id="pagination">
 
               {% if is_paginated %}
@@ -299,6 +300,8 @@
             </ul>
             {% endif %}
         </div>
+                </div>
+
         </div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script>
@@ -326,11 +329,16 @@
         });
 
         $(document).ready(function(){
-            $(".loader").hide()
 
-            $(".filter-checkbox").on("click", function(){
+            $(".filter-checkbox, #price-filter").on("click", function(){
                 console.log("Clicked");
                 let filter_object = {};
+
+                let min_price = $("#max_price").attr("min")
+                let max_price = $("#max_price").val()
+
+                filter_object.min_price = min_price
+                filter_object.max_price = max_price
 
                 $(".filter-checkbox").each(function(index){
                     let filter_value = $(this).val();
@@ -340,7 +348,6 @@
                     });
 
                 });
-                console.log(filter_object);
                 $.ajax({
                    url: '{% url 'store:filter-items' %}',
                     data: filter_object,
@@ -353,22 +360,77 @@
                         console.log("Data filtred");
                         $("#filtered-items").html(response.data)
                         $("#pagination").css("display", "none");
-
                     }
                 });
+            });
+            $("#max_price").on("blur", function (){
+                let min_price = $(this).attr("min")
+                let max_price = $(this).attr("max")
+                let current_price = $(this).val()
 
+                console.log(current_price, max_price, min_price)
+
+                if (current_price < parseFloat(min_price) || current_price > parseFloat(max_price)){
+                    alert("This value is out of the price range. Please enter another one.")
+                    $(this).val(min_price)
+                    $('#range').val(min_price)
+                    $(this).focus()
+
+                    return false;
+                }
             });
-        });
-        $(document).ready(function(){
-            $('.show-more-btn').click(function(){
-                $('.owners-list li.d-none').toggleClass('d-none');
+
+            $('.show-more-btn').click(function () {
+                $('.owners-list li.d-none').removeClass('d-none');
                 $(this).hide();
+                $('.show-less-btn').show();
             });
-        });
-        $(document).ready(function(){
-            $('#show-more-btn').click(function(){
-                $('.category-list li.d-none').toggleClass('d-none');
+
+            $('.show-less-btn').click(function () {
+                $('.owners-list li:gt(4)').addClass('d-none');
                 $(this).hide();
+                $('.show-more-btn').show();
+            });
+
+            $('.show-less-btn').hide();
+
+            $('#show-more-btn').click(function () {
+                $('.category-list li.d-none').removeClass('d-none');
+                $(this).hide();
+                $('#show-less-btn').show();
+            });
+
+            $('#show-less-btn').click(function () {
+                $('.category-list li:gt(4)').addClass('d-none');
+                $(this).hide();
+                $('#show-more-btn').show();
+            });
+
+            $('#show-less-btn').hide();
+
+        });
+
+        $(document).on('click', '#cart-button', function (e) {
+            e.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: '{% url 'cart_add' %}',
+                data: {
+                    offer_id: $('#cart-button').val(),
+                    offer_qty: $('#total-cart option:selected').text(),
+                    csrfmiddlewaretoken: '{{ csrf_token }}',
+                    action: 'post'
+                },
+                success: function (json){
+                    //console.log(json)
+                    document.getElementById("cart-count").
+                        textContent = json.count
+                    location.reload();
+
+                },
+                error: function (xhr, errmsg, err) {
+
+                }
             });
         });
         </script>
