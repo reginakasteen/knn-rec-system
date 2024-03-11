@@ -5,27 +5,255 @@
     <title>Home | Dwelly</title>
     <style type="text/css">
         body {
-          background-image: linear-gradient(180deg, #eee, #fff 100px, #fff);
+            background: rgb(253,253,201);
+            background: linear-gradient(45deg, rgba(253,253,201,1) 20%, rgba(254,238,229,1) 70%);
         }
-
+        .store-btn {
+            color: #feeee5;
+            border-color: #feeee5;
+            border-radius: 4vh;
+            font-weight: bold;
+            transition-duration: 0.3s;
+        }
+        .content-card .store-btn {
+            color: #340d0d;
+            border-color: #340d0d;
+        }
+        .content-card .store-btn:hover {
+            background: #340d0d;
+            color: linear-gradient(45deg, rgba(253,253,201,1) 30%, rgba(254,238,229,1) 70%);
+        }
+        .store-btn:hover {
+            transition-duration: 0.3s;
+            background-color: #feeee5;
+            color: #895156;
+        }
         .text-block {
             position: relative;
-            padding: 100px 250px;
-            color: #dddbd7;
+            color: #feeee5;
             background: #895156;
+        }
+        .second-section-header, .box {
+            color: #340d0d;
+        }
+        .link-text, .link-text:hover {
+            color: #feeee5;
+        }
+        .second-section {
+            color: #340d0d;
+            padding: 12vh 0;
+        }
+
+        .text-block, .third-section {
+            padding: 10vh 0;
+        }
+        .third-section {
+            color: #feeee5;
+            background-color: #f06d22;
+        }
+        .box {
+            border-radius: 4vh;
+            background-color: #ffcaab;
+        }
+        .box img {
+            transition-duration: 0.6s;
+        }
+        .box:hover img {
+            scale: 130%;
+            transition-duration: 0.6s;
+        }
+        .contact-link, .contact-link:hover {
+            color: #feeee5;
         }
 
     </style>
     {% include 'personal/parallax.html' %}
 
         <section>
-                <div class="text-block text-center">
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed hendrerit risus at felis ultrices, sed varius metus luctus. Nulla facilisi. Maecenas hendrerit elit sed nibh vehicula, ut blandit nunc luctus. Nulla facilisi. Proin sit amet lectus ut odio facilisis consectetur. Integer vitae lorem sed turpis volutpat posuere. Phasellus sed dolor euismod, laoreet massa nec, ultricies tortor. Aliquam erat volutpat. Sed condimentum, dolor ut tincidunt finibus, est libero venenatis lorem, eu dictum metus nisi vel quam. Nullam sit amet turpis volutpat, convallis eros a, ultrices quam. Ut at risus ut dolor volutpat dignissim. Sed hendrerit purus vitae eros euismod congue. Suspendisse potenti. Sed faucibus elit vitae nisi tempus, in posuere lectus fermentum. Sed ut volutpat libero.
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tristique quam vel turpis pellentesque, ut laoreet diam condimentum. Ut ac sagittis justo. Fusce hendrerit justo quis metus tincidunt, a congue sapien fermentum. Integer luctus lacinia justo, nec convallis dolor suscipit vel. Nullam tincidunt sem at risus vulputate, ut tempor mauris venenatis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Maecenas ullamcorper quam eu hendrerit bibendum. In hac habitasse platea dictumst. Aenean tincidunt libero et sollicitudin eleifend. Vivamus ut accumsan elit. Suspendisse potenti. Integer nec scelerisque justo. Nunc volutpat justo vel urna fermentum, vel gravida lacus luctus.
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed hendrerit risus at felis ultrices, sed varius metus luctus. Nulla facilisi. Maecenas hendrerit elit sed nibh vehicula, ut blandit nunc luctus. Nulla facilisi. Proin sit amet lectus ut odio facilisis consectetur. Integer vitae lorem sed turpis volutpat posuere. Phasellus sed dolor euismod, laoreet massa nec, ultricies tortor. Aliquam erat volutpat. Sed condimentum, dolor ut tincidunt finibus, est libero venenatis lorem, eu dictum metus nisi vel quam. Nullam sit amet turpis volutpat, convallis eros a, ultrices quam. Ut at risus ut dolor volutpat dignissim. Sed hendrerit purus vitae eros euismod congue. Suspendisse potenti. Sed faucibus elit vitae nisi tempus, in posuere lectus fermentum. Sed ut volutpat libero.
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed hendrerit risus at felis ultrices, sed varius metus luctus. Nulla facilisi. Maecenas hendrerit elit sed nibh vehicula, ut blandit nunc luctus. Nulla facilisi. Proin sit amet lectus ut odio facilisis consectetur. Integer vitae lorem sed turpis volutpat posuere. Phasellus sed dolor euismod, laoreet massa nec, ultricies tortor. Aliquam erat volutpat. Sed condimentum, dolor ut tincidunt finibus, est libero venenatis lorem, eu dictum metus nisi vel quam. Nullam sit amet turpis volutpat, convallis eros a, ultrices quam. Ut at risus ut dolor volutpat dignissim. Sed hendrerit purus vitae eros euismod congue. Suspendisse potenti. Sed faucibus elit vitae nisi tempus, in posuere lectus fermentum. Sed ut volutpat libero.
-                    </p>
+                <div class="text-block text-center justify-content-center">
+                    <div class="container-sm">
+                        <h2 class="mb-3">Welcome to Dwelly: Your Ultimate Rental Destination</h2>
+                        <div class="col-md-9 mx-auto mb-5">
+                            <i>
+                                Looking for your next dream getaway? Welcome to Dwelly – your one-stop destination for finding
+                                the perfect rental accommodation, whether it's a cozy apartment in the heart of the city,
+                                a serene countryside cottage, a luxurious villa by the beach, or even a picturesque camping spot
+                                nestled in nature's embrace.
+                            </i>
+                        </div>
+                        <div class="col-md-10 offset-md-2 d-flex row my-4">
+                            <div class="col-md-2">
+                                <img class="p-4" src="{% static 'personal/img/landing/hands.svg' %}">
+                            </div>
+                            <div class="ms-3 col-md-7 my-auto text-start">
+                                <h3 class="mb-4">Find Your Perfect Retreat</h3>
+                                <p>
+                                    Looking for your next dream getaway? Welcome to Dwelly – your one-stop destination for
+                                    finding the perfect rental accommodation, whether it's a cozy apartment in the heart of the city,
+                                    a serene countryside cottage, a luxurious villa by the beach, or even a picturesque
+                                    camping spot nestled in nature's embrace.
+
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-10 offset-md-2 d-flex row my-4">
+                            <div class="col-md-2">
+                                <img class="p-4" src="{% static 'personal/img/landing/interface.svg' %}">
+                            </div>
+                            <div class="ms-3 col-md-7 my-auto text-start">
+                                <h3 class="mb-4">Simplicity and convenience</h3>
+                                <p>
+                                    Our platform offers an intuitive interface and powerful filters for quickly finding
+                                    the perfect accommodation. Whether you're looking for a secluded campground or a stylish
+                                    urban apartment, it's easy with us.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-10 offset-md-2 d-flex row my-4">
+                            <div class="col-md-2">
+                                <img class="p-4" src="{% static 'personal/img/landing/save.svg' %}">
+                            </div>
+                            <div class="ms-3 col-md-7 my-auto text-start">
+                                <h3 class="mb-4">Transparent and Trustworthy</h3>
+                                <p>
+                                    We believe in transparency and trust, which is why each listing on Dwelly features detailed
+                                    descriptions, high-quality images, and genuine reviews from previous guests. Our commitment to
+                                    authenticity ensures that you can book with confidence, knowing exactly what to expect from
+                                    your rental experience.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-10 offset-md-2 d-flex row my-4">
+                            <div class="col-md-2">
+                                <img class="p-4" src="{% static 'personal/img/landing/map.svg' %}">
+                            </div>
+                            <div class="ms-3 col-md-7 my-auto text-start">
+                                <h3 class="mb-4">Start Your Adventure Today</h3>
+                                <p>
+                                    Ready to embark on your next adventure? Start your journey with Dwelly today and
+                                    unlock a world of endless possibilities. Whether you're seeking a cozy cabin retreat, a
+                                    chic urban apartment, or a luxurious beachfront villa,
+                                    Dwelly is here to make your rental dreams a reality.
+                                </p>
+                            </div>
+                        </div>
+                        <h5>Discover Your Home Away From Home with Dwelly <br><br><a role="button" class="p-3 btn store-btn h5 text-decoration-none" href="{% url 'store:main_store' %}">Book Now!</a></h5>
+                    </div>
                 </div>
-            </section>
+        </section>
+
+        <section class="second-section">
+            <div class="container">
+                <div class="text-center mb-4">
+                    <h2 class="second-section-header mb-5">Renting with Dwelly is just easy</h2>
+                </div>
+                <div class="col-md-12 d-flex row justify-content-between">
+                    <div class="col-md-3 mx-5 mb-1 box text-center p-3 justify-content-center">
+                            <div class="col-md-9 m-auto">
+                                <img class="p-5" src="{% static 'personal/img/landing/for_rent.svg' %}">
+                            </div>
+                            <div class="content-card col-md-9 m-auto">
+                                <h3 class="pb-2">Step 1</h3>
+                                <h6>Find the best accommodation option for you on our website</h6>
+                                <a role="button" class="p-3 btn mt-2 link-text store-btn h5 text-decoration-none" href="#">Visit Store</a>
+                            </div>
+                    </div>
+                    <div class="col-md-3 mx-5 mb-1 box text-center p-3 justify-content-center">
+                            <div class="col-md-9 m-auto">
+                                <img class="p-5" src="{% static 'personal/img/landing/calendar.svg' %}">
+                            </div>
+                            <div class="content-card col-md-9 m-auto">
+                                <h3 class="pb-2">Step 2</h3>
+                                <h6>Select the rental period and add the order to your cart</h6>
+                                <a role="button" class="p-3 btn link-text store-btn h5 mt-2 text-decoration-none" href="#">Go to Cart</a>
+                            </div>
+                    </div>
+                    <div class="col-md-3 box mx-5 mb-1 text-center p-1 justify-content-center">
+                            <div class="col-md-9 m-auto">
+                                <img class="p-5" src="{% static 'personal/img/landing/house_key.svg' %}">
+                            </div>
+                            <div class="content-card m-auto col-md-8">
+                                <h3 class="pb-2">Step 3</h3>
+                                <h6>Complete your order and set off to meet new adventures!</h6>
+                                <a role="button" class="p-3 btn mt-2 link-text store-btn h5 text-decoration-none" href="{% url 'booking_page' %}">My orders</a>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    <section class="third-section">
+        <div class="container text-center">
+            <h2 class="mb-5">Contact Us</h2>
+            <div class=" col-md-12 row d-flex">
+                <div class="offset-2 col-md-5">
+
+                    <a href="tg://resolve?domain=dwelly" class="contact-link text-decoration-none mb-2">
+                        <div class="col-md-12 row d-flex mb-2">
+                            <div class="col-md-2 m-auto">
+                                <svg class="bi d-block mx-auto" width="50" height="50"><use xlink:href="#home"/></svg>
+                            </div>
+                            <div class="col-md-10 text-start">
+                                <h4>
+                                    Telegram
+                                </h4>
+                                <h6>
+                                    @dwelly
+                                </h6>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="http://facebook.com" class="contact-link text-decoration-none">
+                        <div class="col-md-12 row d-flex mb-2">
+                            <div class="col-md-2 m-auto">
+                                <svg class="bi d-block mx-auto" width="50" height="50"><use xlink:href="#home"/></svg>
+                            </div>
+                            <div class="col-md-10 text-start">
+                                <h4>
+                                    Facebook
+                                </h4>
+                                <h6>
+                                    http://facebook.com/Dwelly
+                                </h6>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-5">
+                    <a href="tel:+380968882244" class="contact-link text-decoration-none mb-2">
+                        <div class="col-md-12 row d-flex mb-2">
+                            <div class="col-md-2 m-auto">
+                                <svg class="bi d-block mx-auto" width="50" height="50"><use xlink:href="#home"/></svg>
+                            </div>
+                            <div class="col-md-10 text-start">
+                                <h4>
+                                    Phone number
+                                </h4>
+                                <h6>
+                                    +38 (096) 888 22 44
+                                </h6>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="mailto:example@example.com" class="contact-link text-decoration-none mb-2">
+                        <div class="col-md-12 row d-flex mb-2">
+                            <div class="col-md-2 m-auto">
+                                <svg class="bi d-block mx-auto" width="50" height="50"><use xlink:href="#home"/></svg>
+                            </div>
+                            <div class="col-md-10 text-start">
+                                <h4>
+                                    Email
+                                </h4>
+                                <h6>
+                                    dwelly@gmail.com
+                                </h6>
+                            </div>
+                        </div>
+                    </a>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
 {% endblock content %}

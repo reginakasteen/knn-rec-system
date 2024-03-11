@@ -16,25 +16,3 @@ class UserAdmin(UserAdmin):
 
 admin.site.register(User, UserAdmin)
 
-@admin.register(Category)
-class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('name', 'slug')
-    prepopulated_fields = {'slug': ('name',)}
-    search_fields = ('name',)
-
-@admin.register(Offer)
-class OfferAdmin(admin.ModelAdmin):
-    list_display = ('name', 'owned_by', 'slug', 'category', 'room_type', 'is_active', 'is_available', 'price',)
-    prepopulated_fields = {'slug': ('name', 'owned_by')}
-    search_fields = ('name', 'owned_by')
-    list_filter = ('is_available', 'is_active')
-    list_editable = ('is_available', 'price', 'is_active')
-
-
-@admin.register(Owner)
-class OwnerAdmin(admin.ModelAdmin):
-    list_display = ('owner_name', 'location', 'slug')
-    prepopulated_fields = {'slug': ('owner_name',)}
-    search_fields = ('owner_name', 'location',)
-    list_filter = ()
-

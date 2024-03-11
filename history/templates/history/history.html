@@ -4,7 +4,7 @@
 {% block content %}
     <style type="text/css">
     body {
-            background:#eee;
+            background:#feeee5;
         }
         .ratings i {
             font-size: 16px;
@@ -16,6 +16,16 @@
         }
         .product-image{
             width: 100%;
+            border-radius: 3vh;
+            transition-duration: 0.5s;
+        }
+        .product-image:hover {
+            box-shadow: 3px 4px 0px #ffcaab;
+            transition-duration: 0.5s;
+        }
+        .product-header {
+            color: #340d0d;
+            font-weight: 500;
         }
         .dot{
             height: 7px;
@@ -34,26 +44,46 @@
         h5{
             font-weight: 400;
         }
+        .main-card {
+            border-radius: 4vh;
+        }
+        .product-card h4, .product-card p, .rate-text {
+            color: #340d0d;
+        }
+        .btn-details {
+            background-color: #f06d22;
+            color: #feeee5;
+            border-radius: 3vh;
+        }
+        .btn-add {
+            color: #340d0d;
+            border-radius: 3vh;
+            border: solid 1px #340d0d;
+        }
+        .header-text {
+            color: #340d0d;
+        }
+
     </style>
     <title>History | Dwelly</title>
     <div class="container-md">
     <div class="d-flex justify-content-center row">
     {% if page_obj|length != 0 %}
-            <h2 class="p-2 col-md-10 text-center">Your browsing history:</h2>
+            <h2 class="p-2 col-md-10 header-text text-center">Your browsing history:</h2>
     {% for offer in page_obj %}
                     <div class="col-md-10 product-card">
-                        <div class="row p-2 bg-white border rounded mt-2 mb-2">
-                            <div class="col-md-3 mt-1">
+                        <div class="row p-2 bg-white main-card mt-2 mb-2">
+                            <div class="col-md-3 my-auto">
                                 {% if offer.is_active %}
-                                    <a href="{{ offer.get_absolute_url }}"><img class="img-fluid img-responsive rounded product-image" src="{{ offer.picture.url }}"></a>
+                                    <a href="{{ offer.get_absolute_url }}"><img class="img-fluid my-auto img-responsive product-image" src="{{ offer.picture.url }}"></a>
                                 {% else %}
-                                    <img class="img-fluid img-responsive rounded product-image" style="opacity: 50%" src="{{ offer.picture.url }}">
+                                    <img class="img-fluid img-responsive product-image" style="opacity: 50%" src="{{ offer.picture.url }}">
                                 {% endif %}
                             </div>
                             <div class="col-md-6 mt-1">
-                                <h5>{{ offer.name }}</h5>
+                                <h5 class="product-header">{{ offer.name }}</h5>
                                 <div class="d-flex flex-row">
-                                    <div class="ratings mr-2 mt-2">{{ offer.average_rating|floatformat:"1" }}<i class="fa fa-star"> </i> based on   {{ offer.reviews.count }} reviews</div>
+                                    <div class="ratings mr-2 mt-2 rate-text">{{ offer.average_rating|floatformat:"1" }}<i class="fa fa-star"> </i> based on   {{ offer.reviews.count }} reviews</div>
                                 </div>
                                 <div class="mt-1 mb-1 spec-1"><span>{{ offer.created|date:"d M, Y" }}</span><span class="dot"></span><span>{{ offer.category|title }}</span></div>
                                 <div class="mt-1 mb-1 spec-1"><span>{{ offer.owned_by.owner_name }}</span><span class="dot"></span><span>{{ offer.location }}</span><span class="dot"></span><span>{{ offer.room_type }}<br></span></div>
@@ -65,16 +95,16 @@
                                 </div>
                                 {% if offer.is_active %}
                                    <h6 class="text-success">Available for rent</h6>
-                                    <div class="d-flex flex-column mt-4">
+                                    <div class="d-flex col-md-12 flex-column mt-3">
                                     {% if user.is_authenticated %}
                                         <form action="/history/" method="POST">{% csrf_token %}
                                             <input type="hidden" name="id" value="{{ offer.id }}">
-                                            <a href="{{ offer.get_absolute_url }}" role="button"><button class="btn btn-danger btn-sm w-100"> Details</button> </a>
+                                            <a href="{{ offer.get_absolute_url }}" role="button"><button class="btn btn-details p-2 btn-sm w-100"> Details</button> </a>
                                         </form>
-                                        <a class="btn btn-outline-danger btn-sm mt-2 cart-button"  data-offer-id="{{ offer.id }}" href="#" role="button">Add to cart</a>
+                                        <a class="btn btn-add p-2 btn-sm mt-2 cart-button w-40"  data-offer-id="{{ offer.id }}" href="#" role="button">Add to cart</a>
                                     {% else %}
-                                        <a class="btn btn-danger  btn-sm" href="{{ offer.get_absolute_url }}" role="button">Details</a>
-                                        <a class="btn btn-outline-danger btn-sm mt-2" href="{% url 'login' %}" role="button">Add to cart</a>
+                                        <a class="btn btn-details p-2 btn-sm" href="{{ offer.get_absolute_url }}" role="button">Details</a>
+                                        <a class="btn btn-add p-2 btn-sm mt-2" href="{% url 'login' %}" role="button">Add to cart</a>
                                         {% endif %}
                                     </div>
                                 {% else %}
@@ -96,7 +126,7 @@
         <div class="d-flex">
             {% for i in "12345" %}
             <div class="col-md-2 mx-4 product-card">
-                        <div class="row p-2 bg-white border rounded mt-2 mb-1">
+                        <div class="row p-2 bg-card border rounded mt-2 mb-1">
                             <a href="#"><img class="img-fluid img-responsive rounded product-image" src="{% static '/history/img/img.png' %}"></a>
                             <div class="col-md-12 mt-1">
                                 <h5>Recomendation Title</h5>

@@ -1,8 +1,12 @@
 from store.models import Offer
+from account.models import User
+from django.http import HttpResponse
+
 
 class Cart():
     def __init__(self, request):
         self.session = request.session
+        # self.request = request
         cart = self.session.get('session_key')
         if 'session_key' not in request.session:
             cart = self.session['session_key'] = {}
@@ -20,6 +24,13 @@ class Cart():
             self.cart[offer_id] = int(offer_qty)
 
         self.session.modified = True
+
+        # if self.request.user.is_authenticated:
+        #     current_user = request.user
+        #     cart_dictionary = str(self.cart)
+        #     #cart_dictionary = cart_dictionary.replace("\'", "\"")
+        #     current_user.update(old_cart=str(cart_dictionary))
+
     def __len__(self):
         return len(self.cart)
 

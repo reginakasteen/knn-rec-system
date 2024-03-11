@@ -10,19 +10,22 @@ from django.core.paginator import Paginator
 from django.views.generic import ListView
 
 
+def get_page_objects(offers, request, per_page=20):
+    paginator = Paginator(offers, per_page)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    is_paginated = paginator.num_pages > 1
+    for offer in page_obj:
+        average_reviews = Review.objects.filter(offer=offer).aggregate(rating=Avg("rating_value"))
+        offer.average_rating = average_reviews['rating'] if average_reviews['rating'] else 0
+    return page_obj, is_paginated
+
 def main_store(request):
     min_max_price = Offer.objects.aggregate(Min("price"), Max("price"))
     owners = Owner.objects.all()
     offers = Offer.objects.all()
-    paginator = Paginator(offers, 5)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-    is_paginated = True if paginator.num_pages > 1 else False
-
-    for offer in page_obj:
-        average_reviews = Review.objects.filter(offer=offer).aggregate(rating=Avg("rating_value"))
-        average_rating = Review.objects.filter(offer=offer).aggregate(rating=Avg("rating_value"))
-        offer.average_rating = average_reviews['rating'] if average_reviews['rating'] else 0
+    page_obj, is_paginated = get_page_objects(offers, request)
+    average_rating = Review.objects.filter(offer__in=offers).aggregate(rating=Avg("rating_value"))
     context = {
         'average_rating': average_rating,
         'page_obj': page_obj,
@@ -35,14 +38,8 @@ def main_store(request):
 def category_list_view(request, category_slug):
     category = get_object_or_404(Category, slug=category_slug)
     offers = Offer.objects.filter(category=category)
-    paginator = Paginator(offers, 5)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-    is_paginated = True if paginator.num_pages > 1 else False
-    for offer in page_obj:
-        average_reviews = Review.objects.filter(offer=offer).aggregate(rating=Avg("rating_value"))
-        average_rating = Review.objects.filter(offer=offer).aggregate(rating=Avg("rating_value"))
-        offer.average_rating = average_reviews['rating'] if average_reviews['rating'] else 0
+    page_obj, is_paginated = get_page_objects(offers, request, per_page=5)
+    average_rating = Review.objects.filter(offer__in=offers).aggregate(rating=Avg("rating_value"))
     context = {
         'average_rating': average_rating,
         'page_obj': page_obj,

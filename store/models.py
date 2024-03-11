@@ -5,8 +5,8 @@ from django.urls import reverse
 
 PERIODS = [
     ("D", "per day"),
+    ("W", "per week"),
     ("M", "per month"),
-    ("Y", "per year"),
 ]
 
 RATING = [
@@ -37,6 +37,7 @@ class Owner(models.Model):
     location = models.CharField(max_length=100)
     slug = models.SlugField(max_length=255, unique=True)
     description = models.TextField(null=True, blank=True)
+    rating = models.FloatField(null=True, default=0)
 
     class Meta:
         verbose_name_plural = 'owners'
@@ -53,14 +54,15 @@ class Offer(models.Model):
     slug = models.SlugField(max_length=255, unique=True)
     location = models.CharField(max_length=100)
     price = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(1)])
-    #rating = models.FloatField(null=True, default=0)
-    is_available = models.BooleanField(default=True)
-    is_active = models.BooleanField(default=True)
-    period = models.CharField(max_length=10, choices=PERIODS, default='M')
+    rating = models.FloatField(null=True, default=0)
+
+    period = models.CharField(max_length=10, choices=PERIODS, default='D')
     room_type = models.CharField(max_length=50)
     picture = models.ImageField(upload_to='images/')
     created = models.DateTimeField(auto_now_add=True)
     description = models.TextField(null=True, blank=True)
+    is_available = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=True)
 
     class Meta:
         verbose_name_plural = 'offers'
@@ -107,4 +109,3 @@ class Review(models.Model):
 
     def __str__(self):
         return self.offer.name
-

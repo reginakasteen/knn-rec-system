@@ -1,52 +1,52 @@
 {% for offer in page_obj %}
     <div class="d-flex justify-content-center row">
-        <div class="col-md-10 product-card">
-            <div class="row p-2 bg-white border rounded mt-2 mb-2">
-                <div class="col-md-3 mt-1">
-                    {% if offer.is_active %}
-                        <a href="{{ offer.get_absolute_url }}"><img class="img-fluid img-responsive rounded product-image" src="{{ offer.picture.url }}"></a>
-                    {% else %}
-                        <img class="img-fluid img-responsive rounded product-image" style="opacity: 50%" src="{{ offer.picture.url }}">
-                    {% endif %}
-                </div>
-                <div class="col-md-6 mt-1">
-                    <h5>{{ offer.name }}</h5>
-                    <div class="d-flex flex-row">
-                        <div class="ratings mr-2 mt-2">{{ offer.average_rating|floatformat:"1" }}<i class="fa fa-star"> </i> based on   {{ offer.reviews.count }} reviews</div>
-                    </div>
-                    <div class="mt-1 mb-1 spec-1"><span>{{ offer.created|date:"d M, Y" }}</span><span class="dot"></span><span>{{ offer.category|title }}</span></div>
-                    <div class="mt-1 mb-1 spec-1"><span>{{ offer.owned_by.owner_name }}</span><span class="dot"></span><span>{{ offer.location }}</span><span class="dot"></span><span>{{ offer.room_type }}<br></span></div>
-                    <p class="text-justify text-truncate para mb-0">{{ offer.description }}</p>
-                </div>
-                <div class="align-items-center align-content-center col-md-3 border-left mt-1">
-                    <div class="d-flex flex-row align-items-center">
-                        <h4 class="mr-1">${{ offer.price }}</h4><span class="mx-2 text-muted fw-light">{{ offer.get_period_display }}</span>
-                    </div>
-                    {% if offer.is_active %}
+                    <div class="col-md-10 product-card">
+                        <div class="row p-2 bg-white main-card mt-2 mb-2">
+                            <div class="col-md-3 mt-1">
+                                {% if offer.is_active %}
+                                    <a href="{{ offer.get_absolute_url }}"><img class="img-fluid img-responsive product-image" src="{{ offer.picture.url }}"></a>
+                                {% else %}
+                                    <img class="img-fluid img-responsive product-image" style="opacity: 50%" src="{{ offer.picture.url }}">
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6 mt-1">
+                                <h5>{{ offer.name }}</h5>
+                                <div class="d-flex flex-row">
+                                    <div class="ratings mr-2 mt-2">{{ offer.average_rating|floatformat:"1" }}<i class="fa fa-star"> </i> based on   {{ offer.reviews.count }} reviews</div>
+                                </div>
+                                <div class="mt-1 mb-1 spec-1"><span>{{ offer.created|date:"d M, Y" }}</span><span class="dot"></span><span>{{ offer.category|title }}</span></div>
+                                <div class="mt-1 mb-1 spec-1"><span>{{ offer.owned_by.owner_name }}</span><span class="dot"></span><span>{{ offer.location }}</span><span class="dot"></span><span>{{ offer.room_type }}<br></span></div>
+                                <p class="text-justify text-truncate para mb-0">{{ offer.description }}</p>
+                            </div>
+                            <div class="align-items-center align-content-center col-md-3 border-left mt-1">
+                                <div class="d-flex flex-row align-items-center">
+                                    <h4 class="mr-1">${{ offer.price }}</h4><span class="mx-2 text-muted fw-light">{{ offer.get_period_display }}</span>
+                                </div>
+                                {% if offer.is_active %}
                                    <h6 class="text-success">Available for rent</h6>
                                     <div class="d-flex flex-column mt-4">
                                     {% if user.is_authenticated %}
                                         <form action="/history/" method="POST">{% csrf_token %}
                                             <input type="hidden" name="id" value="{{ offer.id }}">
-                                            <a href="{{ offer.get_absolute_url }}" role="button"><button class="btn btn-danger btn-sm w-100"> Details</button> </a>
+                                            <a href="{{ offer.get_absolute_url }}" role="button"><button class="btn btn-details btn-sm w-100"> Details</button> </a>
                                         </form>
-                                        <a class="btn btn-outline-danger btn-sm mt-2 cart-button"  data-offer-id="{{ offer.id }}" href="#" role="button">Add to cart</a>
+                                        <a class="btn btn-add btn-sm mt-2 cart-button" id="cart-button"  data-offer-id="{{ offer.id }}" href="{% url 'cart_summary' %}" role="button">Add to cart</a>
                                     {% else %}
-                                        <a class="btn btn-danger  btn-sm" href="{{ offer.get_absolute_url }}" role="button">Details</a>
-                                        <a class="btn btn-outline-danger btn-sm mt-2" href="{% url 'login' %}" role="button">Add to cart</a>
+                                        <a class="btn btn-details  btn-sm" href="{{ offer.get_absolute_url }}" role="button">Details</a>
+                                        <a class="btn btn-add btn-sm mt-2" href="{% url 'login' %}" role="button">Add to cart</a>
                                         {% endif %}
                                     </div>
                                 {% else %}
                                     <h6 class="text-danger">Reserved</h6>
                                     <div class="d-flex flex-column mt-4">
-                                        <a class="btn btn-danger disabled btn-sm" href="{{ offer.get_absolute_url }}" role="button">Details</a>
-                                        <a class="btn btn-outline-danger disabled btn-sm mt-2"  href="#" role="button">Add to cart</a>
+                                        <a class="btn btn-details disabled btn-sm" href="{{ offer.get_absolute_url }}" role="button">Details</a>
+                                        <a class="btn btn-add disabled btn-sm mt-2"  href="#" role="button">Add to cart</a>
                                     </div>
                                 {% endif %}
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-    </div>
 {% endfor %}
 <div class="d-flex justify-content-center" id="pagination">
 

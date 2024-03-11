@@ -6,7 +6,6 @@ from django.core.paginator import Paginator
 from collections import OrderedDict
 
 
-
 def history_view(request):
     if request.method == "POST":
         user = request.user

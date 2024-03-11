@@ -1,6 +1,9 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from .cart import Cart
+from .models import Booking
+from history.models import ViewHistory
 from store.models import Offer
+import json
 from django.http import JsonResponse
 from django.contrib import messages
 
@@ -55,3 +58,35 @@ def cart_update(request):
     })
     return response
 
+
+def orders(request):
+    if request.method == 'POST':
+        items = json.loads(request.POST.get('items'))
+
+        for item in items:
+            offer_id = item['offer_id']
+            checkin_date = item['checkin_date']
+            checkout_date = item['checkout_date']
+            cart = Cart(request)
+
+            Booking.objects.create(
+                offer_id=offer_id,
+                user=request.user,
+                checkin_date=checkin_date,
+                checkout_date=checkout_date
+            )
+            cart.delete(offer=offer_id)
+
+        return JsonResponse({'status': 'success'})
+    else:
+        return JsonResponse({'status': 'error'})
+
+
+def booking_page(request):
+    orders = Booking.objects.filter(user=request.user)
+    history = ViewHistory.objects.filter(user=request.user).order_by('-view_date')[:5]
+    context = {
+        'history': history,
+        'orders': orders,
+    }
+    return render(request, 'cart/orders.html', context)
